@@ -27,16 +27,24 @@ class EditProf extends Component {
         //     return
         // }
 
-            var raw = JSON.stringify({
-                "email": email,
-                "first_name": first_name,
-                "last_name": last_name,
-                "phone_number": phone_number,
-                "city": city,
-                "username": username,
-                "country": country,
-                "picture": picture,
-            });
+        var body = {}
+        if (document.getElementById("username").validity.valid)
+            body['username'] = username
+        if(document.getElementById("email").validity.valid)
+            body['email'] = email
+        if(document.getElementById("last_name").validity.valid)
+            body['last_name']= last_name
+        if(document.getElementById("first_name").validity.valid)
+            body['first_name']= first_name
+        if(document.getElementById("city").validity.valid)
+            body['city']= city
+        if(document.getElementById("country").validity.valid)
+            body['country']= country
+        if(document.getElementById("phone_number").validity.valid)
+            body['phone_number']= phone_number
+
+
+        var raw = JSON.stringify(body);
 
         var requestOptions = {
             method: 'PUT',
@@ -91,17 +99,17 @@ class EditProf extends Component {
                             <div className="form-group row">
                                 <label htmlFor="country">Country</label>
                                 <input type="text" className="form-control" id="country"
-                                       placeholder="country"/>
+                                       placeholder="country" required/>
                             </div>
                             <div className="form-group row">
                                 <label htmlFor="city">city</label>
                                 <input type="text" className="form-control" id="city"
-                                       placeholder="city"/>
+                                       placeholder="city" required/>
                             </div>
                             <div className="form-group row">
                                 <label htmlFor="pic">Picture</label>
                                 <input type="file" className="form-control" id="pic" accept="image/*"
-                                       formenctype="multipart/form-data"/>
+                                       formenctype="multipart/form-data" required/>
                             </div>
                             <div className="center">
                                 <button onClick={this.submit} type="submit" className="btn btn-primary col-6">Edit
