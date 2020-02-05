@@ -29,7 +29,7 @@ class Follow extends Component {
             .then(function (result) {
                 console.log(result)
                 let obj = JSON.parse(result);
-                 msg = obj.msg;
+                let msg = obj.msg;
                 console.log("msg" + msg)
 
 

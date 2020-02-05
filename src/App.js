@@ -50,7 +50,7 @@ class App extends Component {
                     <Route exact path="/Home" render={() => <FirstPage/>}></Route>
                     <Route exact path="/PostMaker" render={() => <PostMaker/>}></Route>
                     <Route path="/topic/:topic_id"  component={TopicPage}></Route>
-                    <Route path="/profile"  render={() => <ProfileContainer user={onlineUser} me={{checked:true , follow:false}}/>}></Route>
+                    <Route path="/profile"  render={() => <ProfileContainer  me={{checked:true , follow:false}}/>}></Route>
                     <Route path="/notification" render={() => <NotificationPage/>} ></Route>
                 </Switch>
 
