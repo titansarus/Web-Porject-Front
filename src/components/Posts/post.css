@@ -1,0 +1,17 @@
+ul.simple_nested , ul.simple_nested>li{
+    list-style: none;
+}
+
+ul.simple_nested li{
+    margin-left: 3em;
+}
+
+div.post_comment{
+    border: 1px solid #999;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+ul.simple_nested li ul {
+    border-left: 1px solid #999;
+}

@@ -1,0 +1,16 @@
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({"password":"123","email":"m1a2mad@test.com","first_name":"ali222","last_name":"alian222","phone_number":"09102401211","city":"123","username":"ma2mad1"});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://192.168.1.103:8000/api/account/signup", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
