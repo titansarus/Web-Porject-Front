@@ -22,11 +22,6 @@ class ChannelPage extends Component {
                 <h4>
                     {this.props.channel.description}
                 </h4>
-                <h3>Description</h3>
-                <hr/>
-                <h4>
-                    {this.props.channel.description}
-                </h4>
                 <h3>Admin</h3>
                 <hr/>
                 {Users.map((user) => {

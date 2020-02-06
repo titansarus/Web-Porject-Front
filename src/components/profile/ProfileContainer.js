@@ -30,12 +30,12 @@ class ProfileContainer extends Component {
                     <div className="card col-8" style={{margin: "auto"}}>
 
                         <Route exact path="/profile"  render={() => <Profile  flag={false}/>}></Route>
-                        <Route exact path="/profile/changepass" render={() => <ChangePassword />}></Route>
-                        <Route exact path="/profile/Post" render={() => <Post/>}></Route>
-                        <Route exact path="/profile/edit" render={() => <EditProf />}></Route>
-                        <Route exact path="/profile/following" render={() => <Following user={this.props.user}/>}></Route>
-                        <Route exact path="/profile/followers" render={() => <Followers user={this.props.user}/>}></Route>
-                        <Route exact path="/profile/makeChannel" render={() => <ChannelCreator user={this.props.user}/>}></Route>
+                        <Route exact path="/profile/changepass" render={() => <ChangePassword flag={false}/>}></Route>
+                        <Route exact path="/profile/Post" render={() => <Post flag={false}/>}></Route>
+                        <Route exact path="/profile/edit" render={() => <EditProf flag={false}/>}></Route>
+                        <Route exact path="/profile/following" render={() => <Following user={this.props.user} flag={false}/>}></Route>
+                        <Route exact path="/profile/followers" render={() => <Followers user={this.props.user} flag={false}/>}></Route>
+                        <Route exact path="/profile/makeChannel" render={() => <ChannelCreator user={this.props.user} flag={false}/>}></Route>
                         <Route exact path="/profile/:id"  render={() => <Profile flag={true}/>}></Route>
 
                     </div>
