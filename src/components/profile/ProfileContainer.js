@@ -22,8 +22,6 @@ class ProfileContainer extends Component {
             return (<Redirect to="/signUp"/>)
         }
 
-        //console.log("fuck",this.props.user,this.props)
-
         return (
             <div className="container">
                 <div className="row">
@@ -36,7 +34,7 @@ class ProfileContainer extends Component {
                         <Route exact path="/profile/following" render={() => <Following user={this.props.user} flag={false}/>}></Route>
                         <Route exact path="/profile/followers" render={() => <Followers user={this.props.user} flag={false}/>}></Route>
                         <Route exact path="/profile/makeChannel" render={() => <ChannelCreator user={this.props.user} flag={false}/>}></Route>
-                        <Route exact path="/profile/:id"  render={() => <Profile flag={true}/>}></Route>
+                        <Route exact path="/profile/other/:id"  render={() => <Profile flag={true}/>}></Route>
 
                     </div>
                 </div>
