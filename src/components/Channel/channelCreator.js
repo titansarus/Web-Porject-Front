@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import channels from '../../static/jsons/Channels'
 import ChannelCard from "../profile/ChannelCard";
 
-class ChannelPage extends Component {
+class ChannelCreator extends Component {
     constructor() {
         super();
         this.insideSubmit = this.insideSubmit.bind(this)
@@ -132,4 +132,4 @@ class ChannelPage extends Component {
 
 }
 
-export default ChannelPage
+export default ChannelCreator

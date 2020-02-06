@@ -16,6 +16,9 @@ import ChangePassword from "./components/profile/changePass";
 import Users from "./static/jsons/profiles"
 import Forget from "./components/Signs/Forget";
 
+import ChannelCreator from "./components/Channel/channelCreator";
+import ChannelPage from "./components/Channel/channel";
+
 class App extends Component {
     state = {
         users: [],
@@ -52,6 +55,7 @@ class App extends Component {
                     <Route path="/topic/:topic_id"  component={TopicPage}></Route>
                     <Route path="/profile"  render={() => <ProfileContainer  me={{checked:true , follow:false}}/>}></Route>
                     <Route path="/notification" render={() => <NotificationPage/>} ></Route>
+                    <Route path="/channel/:identifier" render={() => <ChannelPage/>} ></Route>
                 </Switch>
 
 

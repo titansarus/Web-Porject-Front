@@ -9,7 +9,7 @@ import Post from "./post";
 import EditProf from "./editProf"
 import Followers from "./followers";
 import Following from "./following";
-import ChannelPage from "../Channel/channelPage";
+import ChannelCreator from "../Channel/channelCreator";
 
 class ProfileContainer extends Component {
 
@@ -35,7 +35,7 @@ class ProfileContainer extends Component {
                         <Route exact path="/profile/edit" render={() => <EditProf />}></Route>
                         <Route exact path="/profile/following" render={() => <Following user={this.props.user}/>}></Route>
                         <Route exact path="/profile/followers" render={() => <Followers user={this.props.user}/>}></Route>
-                        <Route exact path="/profile/makeChannel" render={() => <ChannelPage user={this.props.user}/>}></Route>
+                        <Route exact path="/profile/makeChannel" render={() => <ChannelCreator user={this.props.user}/>}></Route>
                         <Route exact path="/profile/:id"  render={() => <Profile flag={true}/>}></Route>
 
                     </div>

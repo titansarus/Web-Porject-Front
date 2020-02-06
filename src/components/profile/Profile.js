@@ -4,7 +4,7 @@ import Post from "./post";
 import EditProf from "./editProf";
 import Following from "./following";
 import Followers from "./followers";
-import ChannelPage from "../Channel/channelPage";
+import ChannelCreator from "../Channel/channelCreator";
 import Follow from "./follow";
 import Edit from "./edit";
 
@@ -114,7 +114,7 @@ class profile extends Component {
                 document.getElementById("follower_count").innerHTML= follower_count+ "<br/>" + "Followers";
                 document.getElementById("post_count").innerHTML= post_count+ "<br/>" + "Posts";
                 document.getElementById("names").innerHTML= first_name+ "&nbsp&nbsp&nbsp&nbsp" + last_name;
-                document.getElementById("location").innerHTML= "from " + country+ "\\" + city + "<br/>" +" <br/>" + " <br/>";
+                document.getElementById("location").innerHTML= "From " + country+ "\\" + city + "<br/>" +" <br/>" + " <br/>";
 
 
 
@@ -163,7 +163,7 @@ class profile extends Component {
                             <img className="col-3 img" src="" alt=""/>
                             <h2 className="card-title" id = "username"></h2>
                             <h5 className="card-title" id = "names"></h5>
-                            <h7 className="card-title" id = "location"></h7>
+                            <h6 className="card-title" id = "location"></h6>
 
 
 

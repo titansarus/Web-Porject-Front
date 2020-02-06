@@ -1,0 +1,18 @@
+.post_footer {
+
+    width: auto;
+    margin: auto;
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    background-color: #61dafb;
+    border-radius: 20px;
+
+}
+.card{
+    background-color: lightcyan !important;
+}
+
+.post_footer_element{
+    margin: 10px
+}
