@@ -63,6 +63,8 @@ class ChannelPage extends Component {
                     authors: authors,
                 })
 
+                console.log(data.author)
+
 
             })
             .catch(error => {
@@ -100,11 +102,9 @@ class ChannelPage extends Component {
                 <br/>
                 <h3>Authors</h3>
                 <hr/>
-                {/*{this.state.authors.map((author) => {*/}
-                {/*    return (*/}
-                {/*        <UserCard user={author}/>*/}
-                {/*    )*/}
-                {/*})}*/}
+                {/*{this.state.authors.map((author) =>*/}
+                {/*    <UserCard user={author} />*/}
+                {/*)}*/}
                 <div id="posts"></div>
             </div>
         )
