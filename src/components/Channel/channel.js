@@ -11,6 +11,8 @@ class ChannelPage extends Component {
         rule: "",
         description: "",
         identifier: "",
+        owner: "",
+        authors: "",
 
     };
 
@@ -48,13 +50,17 @@ class ChannelPage extends Component {
                 let rule = data.law;
                 let description = data.description;
                 let identifier = data.identifier;
+                let owner = data.owner;
+                let authors = data.author;
 
 
                 that.setState({
                     title: title,
                     rule: rule,
                     description: description,
-                    identifier: identifier
+                    identifier: identifier,
+                    owner: owner,
+                    authors: authors,
                 })
 
 
@@ -72,14 +78,14 @@ class ChannelPage extends Component {
         return (
 
             <div className="container">
-                <h2>{this.state.title +"  " +  this.state.identifier}</h2>
+                <h2>{this.state.title + "  " + this.state.identifier}</h2>
                 <br/>
                 <h3>Rules</h3>
                 <hr/>
                 <h4>
                     {this.state.rule}
                 </h4>
-                
+
                 <h3>Description</h3>
                 <hr/>
                 <h4>
@@ -90,19 +96,14 @@ class ChannelPage extends Component {
                 <br/>
                 <h3>Admin</h3>
                 <hr/>
-                {/*{Users.map((user) => {*/}
-                {/*    if (this.props.channel.admin === user.id)*/}
-                {/*        return (*/}
-                {/*            <UserCard user={user}/>*/}
-                {/*        )*/}
-                {/*})}*/}
-                {/*<h3>Authors</h3>*/}
-                {/*<hr/>*/}
-                {/*{Users.map((user) => {*/}
-                {/*    if (this.props.channel.authors.includes(user.id))*/}
-                {/*        return (*/}
-                {/*            <UserCard user={user}/>*/}
-                {/*        )*/}
+                <UserCard user={this.state.owner}/>
+                <br/>
+                <h3>Authors</h3>
+                <hr/>
+                {/*{this.state.authors.map((author) => {*/}
+                {/*    return (*/}
+                {/*        <UserCard user={author}/>*/}
+                {/*    )*/}
                 {/*})}*/}
                 <div id="posts"></div>
             </div>
