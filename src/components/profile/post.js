@@ -1,12 +1,22 @@
 import React, {Component} from 'react'
 import "./style.css"
+import Follow from "./follow";
+import Edit from "./edit";
 
 class Post extends Component {
     render() {
+        let temp
+        if ((this.props.flag))
+            temp = <Follow me={this.props.me}/>
+        else
+            temp = <Edit/>
         return (
             <div className="container">
                 <div className="row">
                     <div className="card col-8">
+                        <nav className="navbar navbar-expand-lg navbar-light">
+                            {temp}
+                        </nav>
                         <h3 className="card-title"></h3>
                         <div className="card-body">
                             <form>

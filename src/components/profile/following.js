@@ -4,6 +4,8 @@ import data from "../../static/jsons/profiles"
 import UserCard from "./UserCard";
 import ch from "../../static/jsons/Channels"
 import ChannelCard from "./ChannelCard";
+import Follow from "./follow";
+import Edit from "./edit";
 
 class Following extends Component {
     state = {
@@ -21,8 +23,16 @@ class Following extends Component {
     }
 
     render() {
+        let temp
+        if ((this.props.flag))
+            temp = <Follow me={this.props.me}/>
+        else
+            temp = <Edit/>
         return (
             <div className="container">
+                <nav className="navbar navbar-expand-lg navbar-light">
+                    {temp}
+                </nav>
                 <h2>Following</h2>
                 <br/>
                 <h3>Users</h3>

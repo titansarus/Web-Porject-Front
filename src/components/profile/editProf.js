@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import "./style.css"
+import Follow from "./follow";
+import Edit from "./edit";
 
 class EditProf extends Component {
     constructor() {
@@ -65,10 +67,18 @@ class EditProf extends Component {
     }
 
     render() {
+        let temp
+        if ((this.props.flag))
+            temp = <Follow me={this.props.me}/>
+        else
+            temp = <Edit/>
         return (
             <div className="container">
                 <div className="row">
                     <div className="card col-sm-6 col-lg-8">
+                        <nav className="navbar navbar-expand-lg navbar-light">
+                            {temp}
+                        </nav>
                         <h3 className="card-title">Edit profile</h3>
                         <div className="card-body">
                             <div className="form-group row">
