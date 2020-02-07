@@ -3,6 +3,8 @@ import logo from "../static/img/reddit-logo.png"
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
+// import 'react-notifications/lib/notifications.css';
+// import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class Navbar extends Component {
     constructor() {
@@ -19,7 +21,8 @@ class Navbar extends Component {
     }
 
     componentDidMount() {
-        setTimeout(this.f, 500)
+         setTimeout(this.f, 500)
+
     }
 
     f() {
@@ -39,22 +42,45 @@ class Navbar extends Component {
                 .then(function (result) {
 
                     let obj = JSON.parse(result);
-                    if(obj.success) {
+                    if (obj.success) {
                         console.log(obj.data)
-                        for (const aler of obj.data) {
+                        for (const alter of obj.data) {
+                            console.log(alter)
                             store.addNotification({
                                 title: "Alert!",
-                                message: aler.body,
-                                type: "information",
+                                message: alter.body,
+                                type: "info",
                                 insert: "top",
-                                container: "top-right",
+                                container: "bottom-right",
                                 animationIn: ["animated", "fadeIn"],
                                 animationOut: ["animated", "fadeOut"],
                                 dismiss: {
                                     duration: 6000,
-                                    onScreen: true
                                 }
                             });
+                            console.log("inja")
+                            var myHeaders = new Headers();
+                            myHeaders.append("Content-Type", "application/json");
+                            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+                            var requestOptions = {
+                                method: 'GET',
+                                headers: myHeaders,
+                                redirect: 'follow',
+                            };
+                            let url = "http://127.0.0.1:8000/api/notify/get/"
+                            url += alter.id
+
+                            fetch(url, requestOptions)
+                                .then(response => response.text())
+                                .then(function (result) {
+
+                                    let obj = JSON.parse(result);
+
+                                })
+                                .catch(error => {
+                                    alert('error' + error)
+                                });
                         }
                     }
 
@@ -67,6 +93,7 @@ class Navbar extends Component {
     }
 
 
+
     render() {
 
         if (localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("ACCESS_TOKEN") != undefined) {
@@ -74,6 +101,7 @@ class Navbar extends Component {
         }
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                {/*<NotificationContainer/>*/}
                 <ReactNotification />
                 <a className="navbar-brand" href="/"><img
                     style={{width: "40px", height: "40px"}} src={logo}/></a>
