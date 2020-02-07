@@ -57,7 +57,7 @@ class App extends Component {
                     <Route path="/profile"  render={() => <ProfileContainer  me={{checked:true , follow:false}}/>}></Route>
                     <Route path="/notification" render={() => <NotificationPage/>} ></Route>
                     <Route path="/channel/:identifier" render={() => <ChannelContainer/>} ></Route>
-                    <Route path="/postEdit/:identifier" render={() => <EditPost/>} ></Route>
+                    <Route path="/postEdit/:identifier/:post_id" render={() => <EditPost/>} ></Route>
                 </Switch>
 
 

@@ -13,6 +13,7 @@ class ChannelPage extends Component {
         identifier: "",
         owner: "",
         authors: "",
+        isUserAuthor: false,
 
     };
 
@@ -152,11 +153,19 @@ class ChannelPage extends Component {
 
         let owner_string = owners.username
         //console.log(authors)
-
+        let isThisUserAuthor = false;
         let author_str = ""
         for (let author of authors) {
             // console.log("AUTHORAR: "+author)
             author_str = author_str + "<a href=\"http://localhost:3000/profile/other/ " + author.username + "\">" + author.username + "</a> <br/>"
+            //console.log(author_str)
+        }
+        for (let author of authors) {
+
+            if (author.username === localStorage.getItem("CURRENT_USER")) {
+                console.log(localStorage.getItem("CURRENT_USER") + " === " + author.username)
+                isThisUserAuthor = true
+            }
             //console.log(author_str)
         }
 
@@ -169,6 +178,8 @@ class ChannelPage extends Component {
             identifier: identifier,
             owner: owner_string,
             authors: author_str,
+            isUserAuthor: isThisUserAuthor,
+
         });
     }
 
@@ -305,6 +316,23 @@ class ChannelPage extends Component {
         if (localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("ACCESS_TOKEN") == undefined) {
             return (<Redirect to="/signUp"/>)
         }
+
+        let addPost;
+        if (this.state.isUserAuthor)
+        {
+            addPost = <div>
+                <hr/>
+                <a href={"http://localhost:3000/channel/"+this.state.identifier+"/post"}>
+                <button className="btn btn-primary" type="button">CREATE NEW POST</button>
+                </a>
+                <hr/>
+                <br/>
+            </div>
+        }
+        else
+        {
+            addPost = <br/>
+        }
         return (
 
             <div className="container">
@@ -339,7 +367,10 @@ class ChannelPage extends Component {
                         <div className="row channel-titr" id="Authors">
 
 
+
+
                         </div>
+                        {addPost}
                     </div>
                     <div className="col-8" id="post-container">
 
