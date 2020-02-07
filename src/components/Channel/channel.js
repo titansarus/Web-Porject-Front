@@ -4,6 +4,7 @@ import ChannelCard from "../profile/ChannelCard";
 import Users from "./../../static/jsons/profiles"
 import "./topic.css"
 import {Redirect} from "react-router-dom";
+import Swal from 'sweetalert2'
 
 
 class ChannelPage extends Component {
@@ -27,8 +28,7 @@ class ChannelPage extends Component {
 
         var myHeaders2 = new Headers();
         myHeaders2.append("Content-Type", "application/json");
-        myHeaders2.append("Authorization","Bearer "+localStorage.getItem("ACCESS_TOKEN"))
-
+        myHeaders2.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
 
 
         var raw = JSON.stringify({
@@ -50,15 +50,49 @@ class ChannelPage extends Component {
                 console.log(result)
                 let obj = JSON.parse(result);
                 let msg = obj.msg;
-                console.log(msg)
-                alert(msg)
+                // console.log(msg)
+                // alert(msg)
 
 
             })
             .catch(error => {
-                alert('error' + error)
+                // alert('error' + error)
             });
 
+    }
+
+    async deletePost(post_id) {
+        console.log("INSIDE DELETE FUNCTION" + "  " + post_id)
+
+        let thisIS = this;
+
+
+        var myHeaders2 = new Headers();
+        myHeaders2.append("Content-Type", "application/json");
+        myHeaders2.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders2,
+            redirect: 'follow'
+        };
+
+        let url = "http://127.0.0.1:8000/api/posts/delete/" + post_id;
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+                console.log(result)
+                let obj = JSON.parse(result);
+                let msg = obj.msg;
+                // console.log(msg)
+                // alert(msg)
+
+
+            })
+            .catch(error => {
+                // alert('error' + error)
+            });
     }
 
     componentDidMount() {
@@ -184,7 +218,7 @@ class ChannelPage extends Component {
                                         '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
                                         '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
                                         '                <a\n' +
-                                        '                    class="card-link" href="' + window.location.href+'" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked + '</span></a>\n' +
+                                        '                    class="card-link" href="' + window.location.href + '" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked + '</span></a>\n' +
                                         '            </div>\n' +
                                         '        </div>\n' +
                                         '    </div>\n' +
@@ -198,7 +232,7 @@ class ChannelPage extends Component {
                                         '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
                                         '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
                                         '                <a\n' +
-                                        '                    class="card-link" href="' + window.location.href+'" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked*(-1) + '</span></a><a class="card-link" href="#"><i class="fa fa-edit"></i><span>Edit</span></a><a class="card-link" href="#"><i class="fa fa-trash"></i><span>Delete</span></a></div>\n' +
+                                        '                    class="card-link" href="' + window.location.href + '" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked * (-1) + '</span></a><a class="card-link" href="#"><i class="fa fa-edit"></i><span>Edit</span></a><a class="card-link" id = "delete_post_' + msg.id + '"><i class="fa fa-trash"></i><span>Delete Post</span></a></div>\n' +
                                         '        </div>\n' +
                                         '    </div>\n' +
                                         '</div>'
@@ -206,11 +240,38 @@ class ChannelPage extends Component {
                                 console.log(stringRes)
                                 document.getElementById("post-container").innerHTML = stringRes;
                                 document.getElementById("like_" + msg.id).addEventListener("click", function () {
-                                    that.addLikeDislike(1,msg.id)
-                                })
+                                    that.addLikeDislike(1, msg.id)
+                                });
 
                                 document.getElementById("dislike_" + msg.id).addEventListener("click", function () {
-                                    that.addLikeDislike(-1,msg.id)
+                                    that.addLikeDislike(-1, msg.id)
+                                });
+
+                                document.getElementById("delete_post_" + msg.id).addEventListener("click", function () {
+
+                                    const Swal = require('sweetalert2')
+                                    Swal.fire({
+                                        title: 'Are you sure?',
+                                        text: "You won't be able to revert this!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Yes, delete it!'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            that.deletePost(msg.id).catch((error) => {
+
+                                            })
+                                            Swal.fire(
+                                                'Deleted!',
+                                                'Your Post has been deleted.',
+                                                'success'
+                                            ).then((result) => {
+                                                window.location.reload(true);
+                                            })
+                                        }
+                                    })
                                 })
                             }
 
