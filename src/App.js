@@ -18,6 +18,7 @@ import Forget from "./components/Signs/Forget";
 
 import ChannelCreator from "./components/Channel/channelCreator";
 import ChannelContainer from "./components/Channel/ChannelContainer";
+import EditPost from "./components/Channel/EditPost";
 
 class App extends Component {
     state = {
@@ -56,6 +57,7 @@ class App extends Component {
                     <Route path="/profile"  render={() => <ProfileContainer  me={{checked:true , follow:false}}/>}></Route>
                     <Route path="/notification" render={() => <NotificationPage/>} ></Route>
                     <Route path="/channel/:identifier" render={() => <ChannelContainer/>} ></Route>
+                    <Route path="/postEdit/:identifier" render={() => <EditPost/>} ></Route>
                 </Switch>
 
 

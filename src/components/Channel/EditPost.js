@@ -1,16 +1,18 @@
 import React, {Component} from 'react'
 import "../profile/style.css"
 import {Editor} from "react-draft-wysiwyg";
-import {EditorState, convertToRaw, ContentState} from 'draft-js';
+import {EditorState, convertToRaw, ContentState, convertFromRaw} from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
+import {convertFromHTML} from 'draft-convert'
 
 class Post extends Component {
     constructor() {
         super();
         this.state = {
             editorState: EditorState.createEmpty(),
+            id: -1,
         };
         this.insideSubmit = this.insideSubmit.bind(this)
     }
@@ -20,7 +22,56 @@ class Post extends Component {
 
         this.setState({
             editorState,
+            id: this.state.id,
         });
+    }
+
+    componentDidMount() {
+        const convertFromHTML = require('draft-convert').convertFromHTML;
+        const that = this;
+
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+        if (!(document.getElementById("title").validity.valid)) {
+            alert("something in input is wrong")
+            return
+        }
+
+        let a = window.location.href
+        let re = /http:\/\/(localhost|127\.0\.0\.1):3000\/postEdit\/(\w+)\/(\w+)\/?$/
+        let postIdentifier = a.match(re)[3];
+        let url = "http://127.0.0.1:8000/api/posts/" + postIdentifier;
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(function (result) {
+                console.log(result)
+
+                document.getElementById("title").value = result.msg.title;
+                let body = result.msg.body;
+                console.log(body);
+
+                var contentState = convertFromHTML(body);
+                let editorState_ = EditorState.createWithContent(contentState);
+                console.log(editorState_);
+                that.setState({
+                    editorState: editorState_
+                });
+
+
+            })
+            .catch(error => {
+                //alert('error' + error)
+            });
+
     }
 
     async insideSubmit() {
@@ -43,28 +94,40 @@ class Post extends Component {
 
 
         let a = window.location.href
-        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/channel\/(\w+)\/post\/?$/
+        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/postEdit\/(\w+)\/(\w+)\/?$/
+        let postID = a.match(re)[3];
         let channelIdentifier = a.match(re)[2];
 
         var raw = JSON.stringify({
-            "chanelIdentifier": channelIdentifier,
             "body": content,
             "title": title,
         });
 
         var requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
-        fetch("http://127.0.0.1:8000/api/posts/", requestOptions)
+        let url = "http://127.0.0.1:8000/api/posts/update/" + postID;
+        fetch(url, requestOptions)
             .then(response => response.text())
             .then(function (result) {
                 console.log(result)
                 let obj = JSON.parse(result);
                 let msg = obj.msg;
-                alert(msg)
+                const Swal = require('sweetalert2')
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: true,
+
+                }).then((result2) => {
+                    if (result2.value) {
+                        window.location.href = "http://localhost:3000/channel/" + channelIdentifier;
+                    }
+                })
 
             })
             .catch(error => {
