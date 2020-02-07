@@ -216,7 +216,10 @@ class ChannelPage extends Component {
                     '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
                     '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
                     '                <a\n' +
-                    '                    class="card-link" href="' + window.location.href + '" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked * (-1) + '</span></a><a class="card-link" href="#"><i class="fa fa-edit"></i><span>Edit</span></a><a class="card-link" id = "delete_post_' + msg.id + '"><i class="fa fa-trash"></i><span>Delete Post</span></a></div>\n' +
+                    '                    class="card-link" href="' + window.location.href + '" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' +
+                    msg.like.disLiked * (-1) +
+                    '</span></a><a class="card-link" href="http://localhost:3000/postEdit/' + that.state.identifier + '/' + msg.id + '"><i class="fa fa-edit"></i>' +
+                    '<span>Edit</span></a><a class="card-link" id = "delete_post_' + msg.id + '"><i class="fa fa-trash"></i><span>Delete Post</span></a></div>\n' +
                     '        </div>\n' +
                     '    </div>\n' +
                     '</div>'
@@ -226,7 +229,7 @@ class ChannelPage extends Component {
 
 
         }
-        return Array(output_str,amIAuthor)
+        return Array(output_str, amIAuthor)
     }
 
     componentDidMount() {
@@ -274,7 +277,7 @@ class ChannelPage extends Component {
                             let res = that.setPostsContent(result2.msg, authors, that)
                             console.log("RES" + res)
                             let output_str = res[0];
-                            console.log("OUTPUT STR"+ output_str)
+                            console.log("OUTPUT STR" + output_str)
                             let amIAuthor = res[1];
                             document.getElementById("post-container").innerHTML = output_str;
 
