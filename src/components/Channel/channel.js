@@ -76,7 +76,7 @@ class ChannelPage extends Component {
         };
 
         let a = window.location.href
-        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/channel\/(\w+)\/?$/
+        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/channel\/(\w+)\/?/
         let profile_name = a.match(re)[2];
 
         let url = "http://127.0.0.1:8000/api/chanel/get/";
