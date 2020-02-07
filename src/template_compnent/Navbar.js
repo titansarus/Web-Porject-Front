@@ -1,8 +1,15 @@
 import React, {Component} from 'react'
 import logo from "../static/img/reddit-logo.png"
-import {Link} from 'react-router-dom'
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { store } from 'react-notifications-component';
 
 class Navbar extends Component {
+    constructor() {
+        super();
+        this.logout = this.logout.bind(this)
+        this.f = this.f.bind(this)
+    }
 
     logout() {
         localStorage.removeItem("ACCESS_TOKEN");
@@ -11,6 +18,55 @@ class Navbar extends Component {
         this.forceUpdate();
     }
 
+    componentDidMount() {
+        setTimeout(this.f, 500)
+    }
+
+    f() {
+        if (localStorage.getItem("ACCESS_TOKEN")) {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            };
+
+            fetch("http://127.0.0.1:8000/api/notify/get", requestOptions)
+                .then(response => response.text())
+                .then(function (result) {
+
+                    let obj = JSON.parse(result);
+                    if(obj.success) {
+                        console.log(obj.data)
+                        for (const aler of obj.data) {
+                            store.addNotification({
+                                title: "Alert!",
+                                message: aler.body,
+                                type: "information",
+                                insert: "top",
+                                container: "top-right",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+                                dismiss: {
+                                    duration: 3000,
+                                    onScreen: true
+                                }
+                            });
+                        }
+                    }
+
+                })
+                .catch(error => {
+                    alert('error' + error)
+                });
+        }
+        setTimeout(this.f, 500)
+    }
+
+
     render() {
 
         if (localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("ACCESS_TOKEN") != undefined) {
@@ -18,6 +74,7 @@ class Navbar extends Component {
         }
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <ReactNotification />
                 <a className="navbar-brand" href="/"><img
                     style={{width: "40px", height: "40px"}} src={logo}/></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
@@ -73,7 +130,7 @@ class Navbar extends Component {
                                     <a className="nav-link" href="/profile" style={{color: "white"}}>Profile</a>
                                 </li>
                                 <li className="nav-item btn-danger btn-sm" style={{margin: "5px"}}>
-                                    <a className="nav-link" href="/sign" onClick={this.logout.bind(this)}
+                                    <a className="nav-link" href="/sign" onClick={this.logout}
                                        style={{color: "white"}}>Log Out</a>
                                 </li>
 
