@@ -51,7 +51,7 @@ class Navbar extends Component {
                                 animationIn: ["animated", "fadeIn"],
                                 animationOut: ["animated", "fadeOut"],
                                 dismiss: {
-                                    duration: 3000,
+                                    duration: 6000,
                                     onScreen: true
                                 }
                             });
@@ -63,7 +63,7 @@ class Navbar extends Component {
                     alert('error' + error)
                 });
         }
-        setTimeout(this.f, 500)
+        setTimeout(this.f, 5000)
     }
 
 
