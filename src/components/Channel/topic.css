@@ -16,3 +16,23 @@
 .post_footer_element{
     margin: 10px
 }
+
+.channel-titr{
+    border-radius: 5%;
+    margin: 30px 10px 30px 10px;
+}
+
+.channel-titr:nth-child(3n+0)
+{
+    background-color: aquamarine;
+}
+
+.channel-titr:nth-child(3n+1)
+{
+background-color: beige;
+}
+
+.channel-titr:nth-child(3n+2)
+{
+background-color: hotpink;
+}
