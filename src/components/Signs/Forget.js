@@ -16,7 +16,7 @@ class Forget extends Component {
         }
 
         var raw = JSON.stringify({
-            "email" : email,
+            "email": email,
         });
 
         var requestOptions = {
@@ -29,13 +29,15 @@ class Forget extends Component {
         fetch("http://127.0.0.1:8000/api/account/forgetPassword", requestOptions)
             .then(response => response.text())
             .then(function (result) {
-                let obj =  JSON.parse(result)
+                let obj = JSON.parse(result)
                 let msg = obj.msg;
                 alert(msg)
             })
             .catch(error => {
                 alert('error' + error)
                 localStorage.removeItem("ACCESS_TOKEN")
+                localStorage.removeItem("CURRENT_USER");
+                localStorage.removeItem("CURRENT_USER_ID");
             });
 
 

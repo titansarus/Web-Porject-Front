@@ -5,7 +5,9 @@ import {Link} from 'react-router-dom'
 class Navbar extends Component {
 
     logout() {
-        localStorage.removeItem("ACCESS_TOKEN")
+        localStorage.removeItem("ACCESS_TOKEN");
+        localStorage.removeItem("CURRENT_USER");
+        localStorage.removeItem("CURRENT_USER_ID");
         this.forceUpdate();
     }
 

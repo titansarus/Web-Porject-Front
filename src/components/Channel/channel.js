@@ -7,6 +7,8 @@ import {Redirect} from "react-router-dom";
 
 
 class ChannelPage extends Component {
+
+
     state = {
         title: "",
         rule: "",
@@ -16,6 +18,48 @@ class ChannelPage extends Component {
         authors: "",
 
     };
+
+    async addLikeDislike(value, post_id) {
+        console.log("INSIDE LIKE FUNCTION" + value + "  " + post_id)
+
+        let thisIS = this;
+
+
+        var myHeaders2 = new Headers();
+        myHeaders2.append("Content-Type", "application/json");
+        myHeaders2.append("Authorization","Bearer "+localStorage.getItem("ACCESS_TOKEN"))
+
+
+
+        var raw = JSON.stringify({
+            "value": parseInt(value),
+            "post": parseInt(post_id)
+        });
+        alert(raw)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders2,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/api/like/", requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+                console.log(result)
+                let obj = JSON.parse(result);
+                let msg = obj.msg;
+                console.log(msg)
+                alert(msg)
+
+
+            })
+            .catch(error => {
+                alert('error' + error)
+            });
+
+    }
 
     componentDidMount() {
 
@@ -44,7 +88,7 @@ class ChannelPage extends Component {
             .then(response => response.text())
             .then(function (result) {
 
-               console.log(result)
+                console.log(result)
                 let obj = JSON.parse(result);
                 let data = obj.data;
                 let title = data.title;
@@ -118,29 +162,56 @@ class ChannelPage extends Component {
 
                                 let author_id = msg.author;
                                 let author_name
-                                for (let author_ of authors)
-                                {
-                                    if (author_.id = author_id)
-                                    {
+                                let amIAuthor = false;
+                                for (let author_ of authors) {
+                                    if (author_.id = author_id) {
                                         author_name = author_.username;
                                     }
+                                    if (localStorage.getItem("CURRENT_USER_ID") == author_.id) {
+                                        amIAuthor = true
+                                    }
+
                                 }
+                                console.log("AM I AUTHOR: " + amIAuthor)
                                 let msgBody = msg.body;
-                                let stringRes = '<div class="row">\n' +
-                                    '    <div class="col">\n' +
-                                    '        <div class="card_new">\n' +
-                                    '            <div class="card-body">\n' +
-                                    '                <h4 class="card-title">' + msg.title + '</h4>\n' +
-                                    '                <h6 class="text-muted card-subtitle mb-2">'+ author_name + "::: " + msg.create_time + '</h6>\n' +
-                                    '                <p class="card-text">'+msgBody +  '</p><a class="card-link" href="#"><i class="fa fa-plus"></i><span>Text</span></a>\n' +
-                                    '                <a\n' +
-                                    '                    class="card-link" href="#"><i class="fa fa-minus"></i><span>Text</span></a>\n' +
-                                    '            </div>\n' +
-                                    '        </div>\n' +
-                                    '    </div>\n' +
-                                    '</div>'
+                                let stringRes = "";
+                                if (!amIAuthor) {
+                                    stringRes = '<div class="row">\n' +
+                                        '    <div class="col">\n' +
+                                        '        <div class="card_new">\n' +
+                                        '            <div class="card-body">\n' +
+                                        '                <h4 class="card-title">' + msg.title + '</h4>\n' +
+                                        '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
+                                        '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
+                                        '                <a\n' +
+                                        '                    class="card-link" href="' + window.location.href+'" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked + '</span></a>\n' +
+                                        '            </div>\n' +
+                                        '        </div>\n' +
+                                        '    </div>\n' +
+                                        '</div>'
+                                } else {
+                                    stringRes = '<div class="row">\n' +
+                                        '    <div class="col">\n' +
+                                        '        <div class="card_new">\n' +
+                                        '            <div class="card-body">\n' +
+                                        '                <h4 class="card-title">' + msg.title + '</h4>\n' +
+                                        '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
+                                        '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
+                                        '                <a\n' +
+                                        '                    class="card-link" href="' + window.location.href+'" id="dislike_' + msg.id + '"><i class="fa fa-minus"></i><span>' + msg.like.disLiked*(-1) + '</span></a><a class="card-link" href="#"><i class="fa fa-edit"></i><span>Edit</span></a><a class="card-link" href="#"><i class="fa fa-trash"></i><span>Delete</span></a></div>\n' +
+                                        '        </div>\n' +
+                                        '    </div>\n' +
+                                        '</div>'
+                                }
                                 console.log(stringRes)
                                 document.getElementById("post-container").innerHTML = stringRes;
+                                document.getElementById("like_" + msg.id).addEventListener("click", function () {
+                                    that.addLikeDislike(1,msg.id)
+                                })
+
+                                document.getElementById("dislike_" + msg.id).addEventListener("click", function () {
+                                    that.addLikeDislike(-1,msg.id)
+                                })
                             }
 
 
@@ -157,16 +228,11 @@ class ChannelPage extends Component {
                 }
 
 
-
-
-
             })
             .catch(error => {
                 alert('error0 ' + error)
                 return
             });
-
-
 
 
     }

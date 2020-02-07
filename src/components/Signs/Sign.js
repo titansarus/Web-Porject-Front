@@ -40,7 +40,39 @@ class Sign extends Component {
                 let obj = JSON.parse(result);
                 let access = obj.access;
                 if (access != undefined) {
-                    localStorage.setItem("ACCESS_TOKEN", access)
+                    localStorage.setItem("ACCESS_TOKEN", access);
+                    localStorage.setItem("CURRENT_USER", username);
+                    {
+                        var myHeaders2 = new Headers();
+                        myHeaders2.append("Content-Type", "application/json");
+                        myHeaders2.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+
+                        var requestOptions2 = {
+                            method: 'GET',
+                            headers: myHeaders2,
+                            redirect: 'follow'
+                        };
+
+                        let url2 = "http://127.0.0.1:8000/api/account/me"
+
+                        fetch(url2, requestOptions2)
+                            .then(response => response.text())
+                            .then(function (result) {
+
+                                let obj = JSON.parse(result);
+                                let user_data = obj.data.user_data;
+                                localStorage.setItem("CURRENT_USER_ID", user_data.id)
+
+
+                            })
+                            .catch(error => {
+                                alert('error' + error)
+                                return
+                            });
+                    }
+
+
                 }
 
                 console.log(localStorage.getItem("ACCESS_TOKEN"))
@@ -51,6 +83,8 @@ class Sign extends Component {
             .catch(error => {
                 alert('error' + error)
                 localStorage.removeItem("ACCESS_TOKEN")
+                localStorage.removeItem("CURRENT_USER");
+                localStorage.removeItem("CURRENT_USER_ID");
                 thisIS.forceUpdate();
             });
 
