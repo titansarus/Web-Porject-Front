@@ -8,6 +8,7 @@ import Post from "./post";
 import ChannelPage from "./channel";
 import AddAuthor from "./AddAuthor";
 import EditChannel from "./EditChannel";
+import RemoveAuthor from "./RemoveAuthor";
 
 
 
@@ -26,7 +27,7 @@ class ChannelContainer extends Component {
                         <Route exact path="/channel/:identifier/Post" render={() => <Post/>}></Route>
                         <Route exact path="/channel/:identifier/edit" render={() => <EditChannel/>}></Route>*
                         <Route exact path="/channel/:identifier/addAuthor" render={() => <AddAuthor/>}></Route>
-                        {/*<Route exact path="/channel/:identifier/delAuthor" render={() => <EditProf flag={false}/>}></Route>*/}
+                        <Route exact path="/channel/:identifier/delAuthor" render={() => <RemoveAuthor/>}></Route>
                     </div>
                 </div>
             </div>

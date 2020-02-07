@@ -61,7 +61,7 @@ class AddAuthor extends Component {
                         <h3 className="card-title">Add author</h3>
                         <div className="card-body">
                             <div className="form-group row">
-                                <label htmlFor="name">Username</label>
+                                <label htmlFor="name">Author username</label>
                                 <input type="text" className="form-control" id="username"
                                        placeholder="username" required/>
                             </div>
