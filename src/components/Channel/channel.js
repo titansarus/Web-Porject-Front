@@ -80,31 +80,36 @@ class ChannelPage extends Component {
         return (
 
             <div className="container">
-                <h2>{this.state.title + "  " + this.state.identifier}</h2>
-                <br/>
-                <h3>Rules</h3>
-                <hr/>
-                <h4>
-                    {this.state.rule}
-                </h4>
-
-                <h3>Description</h3>
-                <hr/>
-                <h4>
-                    {this.state.description}
-                </h4>
-                <br/>
-                <br/>
-                <br/>
-                <h3>Admin</h3>
-                <hr/>
-                <UserCard user={this.state.owner}/>
-                <br/>
-                <h3>Authors</h3>
-                <hr/>
-                {/*{this.state.authors.map((author) =>*/}
-                {/*    <UserCard user={author} />*/}
-                {/*)}*/}
+                <div className="row">
+                    <div className="card col-10">
+                        <h2 className="card-header card-title">{this.state.title + "  " + this.state.identifier}</h2>
+                        <div className="card-body">
+                            <br/>
+                            <h3>Rules</h3>
+                            <hr/>
+                            <h4>
+                                {this.state.rule}
+                            </h4>
+                            <br/>
+                            <h3>Description</h3>
+                            <hr/>
+                            <h4>
+                                {this.state.description}
+                            </h4>
+                            <br/>
+                            <h3>Admin</h3>
+                            <hr/>
+                            <UserCard user={this.state.owner}/>
+                            <br/>
+                            <h3>Authors</h3>
+                            <hr/>
+                            {/*{this.state.authors.map((author) =>*/}
+                            {/*    <UserCard user={author} />*/}
+                            {/*)}*/}
+                            <br/>
+                        </div>
+                    </div>
+                </div>
                 <div id="posts"></div>
             </div>
         )
