@@ -1,8 +1,12 @@
 import React, {Component} from 'react'
 import logo from "../static/img/reddit-logo.png"
-import {Link} from 'react-router-dom'
+
 
 class Navbar extends Component {
+    constructor() {
+        super();
+        this.logout = this.logout.bind(this)
+    }
 
     logout() {
         localStorage.removeItem("ACCESS_TOKEN");
@@ -10,6 +14,10 @@ class Navbar extends Component {
         localStorage.removeItem("CURRENT_USER_ID");
         this.forceUpdate();
     }
+
+
+
+
 
     render() {
 
@@ -73,7 +81,7 @@ class Navbar extends Component {
                                     <a className="nav-link" href="/profile" style={{color: "white"}}>Profile</a>
                                 </li>
                                 <li className="nav-item btn-danger btn-sm" style={{margin: "5px"}}>
-                                    <a className="nav-link" href="/sign" onClick={this.logout.bind(this)}
+                                    <a className="nav-link" href="/sign" onClick={this.logout}
                                        style={{color: "white"}}>Log Out</a>
                                 </li>
 
