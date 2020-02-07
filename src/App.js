@@ -18,8 +18,16 @@ import Forget from "./components/Signs/Forget";
 
 import ChannelCreator from "./components/Channel/channelCreator";
 import ChannelContainer from "./components/Channel/ChannelContainer";
+import ReactNotification, {store} from "react-notifications-component";
+import 'react-notifications-component/dist/theme.css'
+// import 'react-notifications/lib/notifications.css';
+// import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class App extends Component {
+    constructor() {
+        super();
+        this.f = this.f.bind(this)
+    }
     state = {
         users: [],
         onlineUser : ""
@@ -29,6 +37,75 @@ class App extends Component {
         this.setState({
             users : Users
         })
+        setTimeout(this.f, 500)
+    }
+
+
+    f() {
+        if (localStorage.getItem("ACCESS_TOKEN")) {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            };
+
+            fetch("http://127.0.0.1:8000/api/notify/get", requestOptions)
+                .then(response => response.text())
+                .then(function (result) {
+
+                    let obj = JSON.parse(result);
+                    if (obj.success) {
+                        console.log(obj.data)
+                        for (const alter of obj.data) {
+                            console.log(alter)
+                            store.addNotification({
+                                title: "Alert!",
+                                message: alter.body,
+                                type: "info",
+                                insert: "top",
+                                container: "bottom-right",
+                                animationIn: ["animated", "fadeIn"],
+                                animationOut: ["animated", "fadeOut"],
+                                dismiss: {
+                                    duration: 6000,
+                                }
+                            });
+                            console.log("inja")
+                            var myHeaders = new Headers();
+                            myHeaders.append("Content-Type", "application/json");
+                            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+                            var requestOptions = {
+                                method: 'GET',
+                                headers: myHeaders,
+                                redirect: 'follow',
+                            };
+                            let url = "http://127.0.0.1:8000/api/notify/get/"
+                            url += alter.id
+
+                            fetch(url, requestOptions)
+                                .then(response => response.text())
+                                .then(function (result) {
+
+                                    let obj = JSON.parse(result);
+
+                                })
+                                .catch(error => {
+                                    alert('error' + error)
+                                });
+                        }
+                    }
+
+                })
+                .catch(error => {
+                    alert('error' + error)
+                });
+        }
+        setTimeout(this.f, 5000)
     }
 
     render() {
@@ -42,6 +119,8 @@ class App extends Component {
         //console.log("LLLLLLLLL",onlineUser)
         return (
             <BrowserRouter>
+                {/*<NotificationContainer/>*/}
+                <ReactNotification />
                 <Navbar/>
 
 

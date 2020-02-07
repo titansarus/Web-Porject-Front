@@ -1,16 +1,11 @@
 import React, {Component} from 'react'
 import logo from "../static/img/reddit-logo.png"
-import ReactNotification from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
-import { store } from 'react-notifications-component';
-// import 'react-notifications/lib/notifications.css';
-// import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 class Navbar extends Component {
     constructor() {
         super();
         this.logout = this.logout.bind(this)
-        this.f = this.f.bind(this)
     }
 
     logout() {
@@ -20,77 +15,7 @@ class Navbar extends Component {
         this.forceUpdate();
     }
 
-    componentDidMount() {
-         setTimeout(this.f, 500)
 
-    }
-
-    f() {
-        if (localStorage.getItem("ACCESS_TOKEN")) {
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
-
-            var requestOptions = {
-                method: 'GET',
-                headers: myHeaders,
-                redirect: 'follow',
-            };
-
-            fetch("http://127.0.0.1:8000/api/notify/get", requestOptions)
-                .then(response => response.text())
-                .then(function (result) {
-
-                    let obj = JSON.parse(result);
-                    if (obj.success) {
-                        console.log(obj.data)
-                        for (const alter of obj.data) {
-                            console.log(alter)
-                            store.addNotification({
-                                title: "Alert!",
-                                message: alter.body,
-                                type: "info",
-                                insert: "top",
-                                container: "bottom-right",
-                                animationIn: ["animated", "fadeIn"],
-                                animationOut: ["animated", "fadeOut"],
-                                dismiss: {
-                                    duration: 6000,
-                                }
-                            });
-                            console.log("inja")
-                            var myHeaders = new Headers();
-                            myHeaders.append("Content-Type", "application/json");
-                            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
-
-                            var requestOptions = {
-                                method: 'GET',
-                                headers: myHeaders,
-                                redirect: 'follow',
-                            };
-                            let url = "http://127.0.0.1:8000/api/notify/get/"
-                            url += alter.id
-
-                            fetch(url, requestOptions)
-                                .then(response => response.text())
-                                .then(function (result) {
-
-                                    let obj = JSON.parse(result);
-
-                                })
-                                .catch(error => {
-                                    alert('error' + error)
-                                });
-                        }
-                    }
-
-                })
-                .catch(error => {
-                    alert('error' + error)
-                });
-        }
-        setTimeout(this.f, 5000)
-    }
 
 
 
@@ -101,8 +26,6 @@ class Navbar extends Component {
         }
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                {/*<NotificationContainer/>*/}
-                <ReactNotification />
                 <a className="navbar-brand" href="/"><img
                     style={{width: "40px", height: "40px"}} src={logo}/></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
