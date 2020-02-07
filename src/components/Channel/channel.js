@@ -125,13 +125,14 @@ class ChannelPage extends Component {
                                         author_name = author_.username;
                                     }
                                 }
+                                let msgBody = msg.body;
                                 let stringRes = '<div class="row">\n' +
                                     '    <div class="col">\n' +
-                                    '        <div class="card">\n' +
+                                    '        <div class="card_new">\n' +
                                     '            <div class="card-body">\n' +
                                     '                <h4 class="card-title">' + msg.title + '</h4>\n' +
                                     '                <h6 class="text-muted card-subtitle mb-2">'+ author_name + "::: " + msg.create_time + '</h6>\n' +
-                                    '                <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#"><i class="fa fa-plus"></i><span>Text</span></a>\n' +
+                                    '                <p class="card-text">'+msgBody +  '</p><a class="card-link" href="#"><i class="fa fa-plus"></i><span>Text</span></a>\n' +
                                     '                <a\n' +
                                     '                    class="card-link" href="#"><i class="fa fa-minus"></i><span>Text</span></a>\n' +
                                     '            </div>\n' +
@@ -139,7 +140,10 @@ class ChannelPage extends Component {
                                     '    </div>\n' +
                                     '</div>'
                                 console.log(stringRes)
+                                document.getElementById("post-container").innerHTML = stringRes;
                             }
+
+
                             //let newObj = JSON.parse(result2);
 
                             //console.log("newObj:" + newObj.toString());
@@ -208,13 +212,7 @@ class ChannelPage extends Component {
                         </div>
                     </div>
                     <div className="col-8" id="post-container">
-                        <div className="row"></div>
-                        <div className="row"></div>
-                        <div className="row"></div>
-                        <div className="row"></div>
-                        <div className="row"></div>
 
-                        <div className="row"></div>
                     </div>
                 </div>
                 <script src="assets/js/jquery.min.js"></script>
