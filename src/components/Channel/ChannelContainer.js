@@ -25,7 +25,7 @@ class ChannelContainer extends Component {
                         <Route exact path="/channel/:identifier"  render={() => <ChannelPage/>}></Route>
                         <Route exact path="/channel/:identifier/Post" render={() => <Post/>}></Route>
                         <Route exact path="/channel/:identifier/edit" render={() => <EditChannel/>}></Route>*
-                        {/*<Route exact path="/channel/:identifier/addAuthor" render={() => <AddAuthor/>}></Route>*/}
+                        <Route exact path="/channel/:identifier/addAuthor" render={() => <AddAuthor/>}></Route>
                         {/*<Route exact path="/channel/:identifier/delAuthor" render={() => <EditProf flag={false}/>}></Route>*/}
                     </div>
                 </div>

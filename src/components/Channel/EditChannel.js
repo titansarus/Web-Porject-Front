@@ -41,7 +41,6 @@ class EditChannel extends Component {
         let profile_name = a.match(re)[2];
         let url = "http://127.0.0.1:8000/api/chanel/update/"
         url+= profile_name
-        console.log(url)
 
         fetch(url, requestOptions)
             .then(response => response.text())
