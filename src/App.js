@@ -17,7 +17,7 @@ import Users from "./static/jsons/profiles"
 import Forget from "./components/Signs/Forget";
 
 import ChannelCreator from "./components/Channel/channelCreator";
-import ChannelPage from "./components/Channel/channel";
+import ChannelContainer from "./components/Channel/ChannelContainer";
 
 class App extends Component {
     state = {
@@ -55,7 +55,7 @@ class App extends Component {
                     <Route path="/topic/:topic_id"  component={TopicPage}></Route>
                     <Route path="/profile"  render={() => <ProfileContainer  me={{checked:true , follow:false}}/>}></Route>
                     <Route path="/notification" render={() => <NotificationPage/>} ></Route>
-                    <Route path="/channel/:identifier" render={() => <ChannelPage/>} ></Route>
+                    <Route path="/channel/:identifier" render={() => <ChannelContainer/>} ></Route>
                 </Switch>
 
 
