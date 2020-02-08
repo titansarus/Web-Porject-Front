@@ -37,7 +37,7 @@ class Followers extends Component {
                 let obj = JSON.parse(result);
                 console.log()
                 for (const channel of obj.data.follower) {
-                    document.getElementById("row").innerHTML += "<ChannelCard channel={channel}/>"
+                    document.getElementById("row").innerHTML += '<a href="/channel/'+channel.chanel.identifier+'"><div className="card-body"> <h6 className="card-title">'+channel.chanel.identifier+'</h6></div></a>'
                 }
 
 
