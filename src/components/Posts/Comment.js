@@ -3,10 +3,9 @@ import "./post.css"
 import 'uuid'
 
 class Comment extends Component {
-    constructor()
-    {
+    constructor() {
         super()
-        this.state ={
+        this.state = {
             contents: "",
             author_username: "",
             id: "",
@@ -39,6 +38,9 @@ children: [{…}]
 
         console.log("ENTERED")
         let initer = this.props.comment;
+        if (!initer) {
+            return
+        }
         console.log(initer.value);
         let id = initer.value.id;
         let contents = initer.value.contents;
@@ -59,7 +61,7 @@ children: [{…}]
                 children: children,
             }
         );
-        this.state={
+        this.state = {
             id: id,
             contents: contents,
             author_username: author_username,
@@ -72,16 +74,23 @@ children: [{…}]
         console.log(this.state)
     }
 
+    replySetter() {
+        document.getElementById("reply_to_comment_id").innerText = this.state.id;
+    }
+
     render() {
         if (this.state.children == undefined || this.state.children.length < 1) {
             return (
                 <div className={"post_comment"}>
                     <p>{this.state.author_username}</p>
 
-                    <p>{this.state.contents}</p>
-                    <p>Likes: {this.state.likes}</p>
-                    <p>DisLikes: {this.state.dislikes}</p>
-                    <p><a href={"#"}>Reply</a></p>
+                    <p dangerouslySetInnerHTML={{__html:this.state.contents}}></p>
+                    <a className="card-link" id={"like_comment_" + this.state.id}><i
+                        className="fa fa-plus" href={window.location.href}></i><span></span>{this.state.likes}</a>
+
+                    <a className="card-link" id={"dislike_comment_" + this.state.id}><i
+                        className="fa fa-minus" href={window.location.href}></i><span></span>{this.state.dislikes}</a>
+                    <p><button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button></p>
 
                 </div>
             );
@@ -90,10 +99,14 @@ children: [{…}]
             <div className={"post_comment"}>
                 <p>{this.state.author_username}</p>
 
-                <p>{this.state.contents}</p>
-                <p>Likes: {this.state.likes}</p>
-                <p>DisLikes: {this.state.dislikes}</p>
-                <p><a href={"#"}>Reply</a></p>
+                <p dangerouslySetInnerHTML={{__html:this.state.contents}}></p>
+                <a className="card-link" id={"like_comment_" + this.state.id}><i
+                    className="fa fa-plus" href={window.location.href}></i><span></span>{this.state.likes}</a>
+
+                <a class="card-link" id={"dislike_comment_" + this.state.id}><i
+                    className="fa fa-minus" href={window.location.href}></i><span></span>{this.state.dislikes}</a>
+
+                <p><button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button></p>
                 <ul className={"simple_nested"}>
                     {this.state.children.map((post) => {
                         return (

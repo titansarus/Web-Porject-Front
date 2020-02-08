@@ -607,23 +607,10 @@ comment: null
         console.log(this.state)
         let comm = <br/>
         const that = this;
-        if (this.state.comments.length>0)
-        {
-            comm = <Comment comment ={this.state.comments[0]}/>
-        }
-        if (this.state.comments.length>0)
-        {
-            // data.map(
-            //     (post) => {
-            //         return (
-            //             <li>
-            //                 <Post post={post}/>
-            //             </li>
-            //         )
-            //     }
-            // )
-            return (
 
+        if (this.state.comments.length > 0) {
+
+            return (
 
 
                 <div className="container">
@@ -633,6 +620,7 @@ comment: null
 
                         <div className="form-group shadow-textarea">
                             <label htmlFor="description">Content</label>
+                            <p id="reply_to_comment_id">nothing</p>
                             <Editor
                                 editorState={this.state.editorState}
                                 toolbarClassName="toolbarClassName"
@@ -644,11 +632,10 @@ comment: null
 
                         </div>
 
-                        <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)} type="submit">Comment to
+                        <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)}
+                                type="submit">Comment to
                             Post
                         </button>
-
-
 
 
                     </div>
@@ -668,11 +655,8 @@ comment: null
                     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
                 </div>
             )
-        }
-        else
-        {
+        } else {
             return (
-
 
 
                 <div className="container">
@@ -682,6 +666,7 @@ comment: null
 
                         <div className="form-group shadow-textarea">
                             <label htmlFor="description">Content</label>
+                            <p id="reply_to_comment_id">nothing</p>
                             <Editor
                                 editorState={this.state.editorState}
                                 toolbarClassName="toolbarClassName"
@@ -693,11 +678,10 @@ comment: null
 
                         </div>
 
-                        <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)} type="submit">Comment to
+                        <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)}
+                                type="submit">Comment to
                             Post
                         </button>
-
-
 
 
                     </div>
