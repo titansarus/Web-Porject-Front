@@ -122,10 +122,12 @@ children: [{…}]
         const that = this;
         let elem = <div><br/></div>
         if (this.state.author_username && this.state.author_username == localStorage.getItem("CURRENT_USER")) {
+            let hrefF = "http://localhost:3000/commentEdit/"+this.state.post_id+"/"+this.state.id;
+            console.log("HREEEEF" + hrefF)
             console.log("MATCH MATCH MATCH")
             elem =
-                <a className="card-link" id={"like_comment_" + this.state.id}><i
-                    className="fa fa-edit" href={window.location.href}
+                <a className="card-link" id={"like_comment_" + this.state.id} href={hrefF}><i
+                    className="fa fa-edit"
                 ></i><span></span>Edit</a>
 
 
