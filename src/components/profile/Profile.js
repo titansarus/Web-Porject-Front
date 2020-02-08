@@ -36,8 +36,7 @@ class profile extends Component {
     async getProfile()
     {
         var thisIS = this;
-
-
+        console.log(this.props.flag?window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)[2]+"followers":"followers")
 
 
         var myHeaders = new Headers();
@@ -108,10 +107,20 @@ class profile extends Component {
                 //console.log(city)
 
                // console.log(obj.data)
-
+                console.log("flag:"+thisIS.props.flag)
+                let url1 = window.location.href
+                let url2= window.location.href
+                if(thisIS.props.flag){
+                    url1+= window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)[2]
+                    url2+= window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)[2]
+                }
+                url1+="followers"
+                url2+="following"
                 document.getElementById("username").innerHTML= username
                 document.getElementById("following_count").innerHTML= following_count+ "<br/>" + "Following";
+                document.getElementById("following_count").setAttribute("href" ,url2)
                 document.getElementById("follower_count").innerHTML= follower_count+ "<br/>" + "Followers";
+                document.getElementById("follower_count").setAttribute("href", url1)
                 document.getElementById("post_count").innerHTML= post_count+ "<br/>" + "Posts";
                 document.getElementById("names").innerHTML= first_name+ "&nbsp&nbsp&nbsp&nbsp" + last_name;
                 document.getElementById("location").innerHTML= "From " + country+ "\\" + city + "<br/>" +" <br/>" + " <br/>";
@@ -166,15 +175,15 @@ class profile extends Component {
                             <h6 className="card-title" id = "location"></h6>
 
 
-
+                            {}
                             <div className="row">
                                 <div  className="col-3 item">
-                                    <a href="/profile/followers" id = "follower_count">
+                                    <a href="" id = "follower_count">
 
                                     </a>
                                 </div>
                                 <div className="col-3 item">
-                                    <a href="/profile/following" id = "following_count">
+                                    <a href="" id = "following_count">
 
                                     </a>
                                 </div>

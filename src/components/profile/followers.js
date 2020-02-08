@@ -1,27 +1,58 @@
 import React, {Component} from 'react'
 import "./style.css"
 import UserCard from "./UserCard";
-import data from "../../static/jsons/profiles";
 import Follow from "./follow";
 import Edit from "./edit";
+import ChannelCard from "./ChannelCard";
 
 class Followers extends Component {
     state = {
-        users: [],
+        channels: [],
     }
 
     componentDidMount() {
-        console.log(data)
-        this.setState({
-            users: data
-        })
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
 
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        let url = "http://127.0.0.1:8000/api/account/"
+        if (window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)) {
+            let profile_name = window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)[2]
+            url = url + "get/" + profile_name
+        } else {
+            url = url + "me"
+        }
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+
+                //console.log(result)
+                let obj = JSON.parse(result);
+                console.log()
+                for (const channel of obj.data.follower) {
+                    document.getElementById("row").innerHTML += "<ChannelCard channel={channel}/>"
+                }
+
+
+            })
+            .catch(error => {
+                alert('error' + error)
+                return
+            });
     }
+
 
     render() {
         let temp
         if ((this.props.flag))
-            temp = <Follow me={this.props.me}/>
+            temp = <Follow/>
         else
             temp = <Edit/>
         return (
@@ -30,17 +61,13 @@ class Followers extends Component {
                     {temp}
                 </nav>
                 <h2>Follwers</h2>
-                <div className="row">
-                    {this.state.users.map((user) => {
-                        if (this.props.user.followers.includes(user.id))
-                            return (
-                                <UserCard user={user}/>
-                            )
-                    })}
+                <div className="row" id="row">
+
                 </div>
             </div>
         )
     }
 }
+
 
 export default Followers

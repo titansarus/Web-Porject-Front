@@ -31,8 +31,10 @@ class ProfileContainer extends Component {
                         <Route exact path="/profile/changepass" render={() => <ChangePassword flag={false}/>}></Route>
                         <Route exact path="/profile/Post" render={() => <Post flag={false}/>}></Route>
                         <Route exact path="/profile/edit" render={() => <EditProf flag={false}/>}></Route>
-                        <Route exact path="/profile/following" render={() => <Following user={this.props.user} flag={false}/>}></Route>
-                        <Route exact path="/profile/followers" render={() => <Followers user={this.props.user} flag={false}/>}></Route>
+                        <Route exact path="/profile/following" render={() => <Following flag={false}/>}></Route>
+                        <Route exact path="/profile/followers" render={() => <Followers flag={false}/>}></Route>
+                        <Route exact path="/profile/other/:id/following" render={() => <Following flag={true}/>}></Route>
+                        <Route exact path="/profile/other/:id/followers" render={() => <Followers  flag={true}/>}></Route>
                         <Route exact path="/profile/makeChannel" render={() => <ChannelCreator user={this.props.user} flag={false}/>}></Route>
                         <Route exact path="/profile/other/:id"  render={() => <Profile flag={true}/>}></Route>
 
