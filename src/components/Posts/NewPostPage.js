@@ -9,6 +9,8 @@ import draftToHtml from 'draftjs-to-html';
 import {convertFromHTML} from 'draft-convert'
 import "./post.css";
 import Comment from "./Comment";
+import data from "../../static/jsons/posts";
+import Post from "./Post";
 
 class comment {
 
@@ -604,45 +606,108 @@ comment: null
         console.log("BEFORE RENDER ")
         console.log(this.state)
         let comm = <br/>
+        const that = this;
         if (this.state.comments.length>0)
         {
             comm = <Comment comment ={this.state.comments[0]}/>
         }
-        return (
+        if (this.state.comments.length>0)
+        {
+            // data.map(
+            //     (post) => {
+            //         return (
+            //             <li>
+            //                 <Post post={post}/>
+            //             </li>
+            //         )
+            //     }
+            // )
+            return (
 
 
 
-            <div className="container">
-                <div className="row text-center">
+                <div className="container">
+                    <div className="row text-center">
 
-                    <div className="post_container" dangerouslySetInnerHTML={{__html: element}}></div>
+                        <div className="post_container" dangerouslySetInnerHTML={{__html: element}}></div>
 
-                    <div className="form-group shadow-textarea">
-                        <label htmlFor="description">Content</label>
-                        <Editor
-                            editorState={this.state.editorState}
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClassName"
-                            editorStyle={editorStyle}
-                            onEditorStateChange={this.onEditorStateChange.bind(this)}
-                        />
+                        <div className="form-group shadow-textarea">
+                            <label htmlFor="description">Content</label>
+                            <Editor
+                                editorState={this.state.editorState}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName"
+                                editorStyle={editorStyle}
+                                onEditorStateChange={this.onEditorStateChange.bind(this)}
+                            />
+
+                        </div>
+
+                        <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)} type="submit">Comment to
+                            Post
+                        </button>
+
+
+
+
+                    </div>
+                    {
+                        this.state.comments.map(
+                            (comment) => {
+                                return (
+                                    <li>
+                                        <Comment comment={comment}/>
+                                    </li>
+                                )
+                            }
+                        )
+                    }
+
+                    <script src="assets/js/jquery.min.js"></script>
+                    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                </div>
+            )
+        }
+        else
+        {
+            return (
+
+
+
+                <div className="container">
+                    <div className="row text-center">
+
+                        <div className="post_container" dangerouslySetInnerHTML={{__html: element}}></div>
+
+                        <div className="form-group shadow-textarea">
+                            <label htmlFor="description">Content</label>
+                            <Editor
+                                editorState={this.state.editorState}
+                                toolbarClassName="toolbarClassName"
+                                wrapperClassName="wrapperClassName"
+                                editorClassName="editorClassName"
+                                editorStyle={editorStyle}
+                                onEditorStateChange={this.onEditorStateChange.bind(this)}
+                            />
+
+                        </div>
+
+                        <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)} type="submit">Comment to
+                            Post
+                        </button>
+
+
+
 
                     </div>
 
-                    <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)} type="submit">Comment to
-                        Post
-                    </button>
-
-
-
-
+                    <script src="assets/js/jquery.min.js"></script>
+                    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
                 </div>
-                {comm}
-                <script src="assets/js/jquery.min.js"></script>
-                <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-            </div>
-        )
+            )
+        }
+
     }
 
 }
