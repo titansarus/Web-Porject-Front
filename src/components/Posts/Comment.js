@@ -120,6 +120,16 @@ children: [{…}]
 
     render() {
         const that = this;
+        let elem = <div><br/></div>
+        if (this.state.author_username && this.state.author_username == localStorage.getItem("CURRENT_USER")) {
+            console.log("MATCH MATCH MATCH")
+            elem =
+                <a className="card-link" id={"like_comment_" + this.state.id}><i
+                    className="fa fa-edit" href={window.location.href}
+                ></i><span></span>Edit</a>
+
+
+        }
         if (this.state.children == undefined || this.state.children.length < 1) {
             return (
                 <div className={"post_comment"}>
@@ -136,6 +146,7 @@ children: [{…}]
                         className="fa fa-minus" href={window.location.href} onClick={() => {
                         that.likeOrDislike(this.state.id, this.state.post_id, -1)
                     }}></i><span></span>{this.state.dislikes}</a>
+                    {elem}
                     <p>
                         <button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button>
                     </p>
@@ -158,6 +169,7 @@ children: [{…}]
                     className="fa fa-minus" href={window.location.href} onClick={() => {
                     that.likeOrDislike(this.state.id, this.state.post_id, -1)
                 }}></i><span></span>{this.state.dislikes}</a>
+                {elem}
 
                 <p>
                     <button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button>
