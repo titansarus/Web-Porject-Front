@@ -7,6 +7,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 import {convertFromHTML} from 'draft-convert'
+import "./post.css";
+import Comment from "./Comment";
 
 class comment {
 
@@ -207,6 +209,8 @@ comment: null
                                 that.setState({
                                     comments: comment_tree
                                 });
+                                console.log("COMMENT:TREE")
+                                console.log(comment_tree)
                                 console.log(that.state.comments)
 
                             })
@@ -597,7 +601,15 @@ comment: null
             height: '150px',
             width: '100%',
         };
+        console.log("BEFORE RENDER ")
+        console.log(this.state)
+        let comm = <br/>
+        if (this.state.comments.length>0)
+        {
+            comm = <Comment comment ={this.state.comments[0]}/>
+        }
         return (
+
 
 
             <div className="container">
@@ -623,7 +635,10 @@ comment: null
                     </button>
 
 
+
+
                 </div>
+                {comm}
                 <script src="assets/js/jquery.min.js"></script>
                 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
             </div>
