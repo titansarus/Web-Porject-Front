@@ -202,6 +202,11 @@ class ChannelPage extends Component {
 
             }
             console.log("AM I AUTHOR: " + amIAuthor);
+            let a = window.location.href
+            let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/channel\/(\w+)\/?$/;
+            let channel_name = a.match(re)[2];
+
+
             let msgBody = msg.body;
             let stringRes = "";
             if (!amIAuthor) {
@@ -209,7 +214,7 @@ class ChannelPage extends Component {
                     '    <div class="col">\n' +
                     '        <div class="card_new">\n' +
                     '            <div class="card-body">\n' +
-                    '                <h4 class="card-title">' + msg.title + '</h4>\n' +
+                    '              <h4> <a class="card-title" href="http://localhost:3000/PostView/' + channel_name + '/' + msg.id + '">' + msg.title + '</a> </h4>\n' +
                     '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
                     '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
                     '                <a\n' +
@@ -223,7 +228,7 @@ class ChannelPage extends Component {
                     '    <div class="col">\n' +
                     '        <div class="card_new">\n' +
                     '            <div class="card-body">\n' +
-                    '                <h4 class="card-title">' + msg.title + '</h4>\n' +
+                    '               <h4> <a class="card-title" href="http://localhost:3000/PostView/' + channel_name + '/' + msg.id + '">' + msg.title + '</a> </h4>\n' +
                     '                <h6 class="text-muted card-subtitle mb-2">' + author_name + "::: " + msg.create_time + '</h6>\n' +
                     '                <p class="card-text">' + msgBody + '</p><a class="card-link" id =like_' + msg.id + ' href="' + window.location.href + '"><i class="fa fa-plus"></i><span>' + msg.like.liked + '</span></a>\n' +
                     '                <a\n' +
@@ -318,19 +323,16 @@ class ChannelPage extends Component {
         }
 
         let addPost;
-        if (this.state.isUserAuthor)
-        {
+        if (this.state.isUserAuthor) {
             addPost = <div>
                 <hr/>
-                <a href={"http://localhost:3000/channel/"+this.state.identifier+"/post"}>
-                <button className="btn btn-primary" type="button">CREATE NEW POST</button>
+                <a href={"http://localhost:3000/channel/" + this.state.identifier + "/post"}>
+                    <button className="btn btn-primary" type="button">CREATE NEW POST</button>
                 </a>
                 <hr/>
                 <br/>
             </div>
-        }
-        else
-        {
+        } else {
             addPost = <br/>
         }
         return (
@@ -365,8 +367,6 @@ class ChannelPage extends Component {
                         <hr/>
                         Authors<br/>
                         <div className="row channel-titr" id="Authors">
-
-
 
 
                         </div>
