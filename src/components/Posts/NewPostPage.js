@@ -568,12 +568,59 @@ comment: null
                 let obj = JSON.parse(result);
                 let msg = obj.msg;
                 alert(msg)
+                window.location.reload()
 
             })
             .catch(error => {
                 //alert('error' + error)
             });
 
+    }
+
+    sumbitCommentReply() {
+        const that = this;
+        //
+        //let pic = document.getElementById("file").value;
+
+        let edState = this.state.editorState;
+        // console.log(draftToHtml(convertToRaw(edState.getCurrentContent())))
+        let content = draftToHtml(convertToRaw(edState.getCurrentContent()));
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+        let comment_id = document.getElementById("reply_to_comment_id").innerText;
+        if (comment_id == "nothing") {
+            alert("NOTHING IS SELECTED")
+            return;
+        }
+
+
+        var raw = JSON.stringify({
+            "body": content,
+            "post": that.state.post_id,
+            "comment": comment_id
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch("http://127.0.0.1:8000/api/comment/", requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+                console.log(result)
+                let obj = JSON.parse(result);
+                let msg = obj.msg;
+                alert(msg)
+                window.location.reload()
+
+            })
+            .catch(error => {
+                //alert('error' + error)
+            });
     }
 
 
@@ -635,6 +682,11 @@ comment: null
                         <button className="btn btn-primary" onClick={this.sumbitComment.bind(this)}
                                 type="submit">Comment to
                             Post
+                        </button>
+                        <span> ------- </span>
+                        <button className="btn btn-primary" onClick={this.sumbitCommentReply.bind(this)}
+                                type="submit">Repply to
+                            Comment
                         </button>
 
 

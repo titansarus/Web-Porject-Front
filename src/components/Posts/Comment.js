@@ -78,19 +78,67 @@ children: [{…}]
         document.getElementById("reply_to_comment_id").innerText = this.state.id;
     }
 
+    likeOrDislike(comment_id, post_id, value) {
+        console.log(comment_id + " " + post_id + " " + value)
+        let thisIS = this;
+
+
+        var myHeaders2 = new Headers();
+        myHeaders2.append("Content-Type", "application/json");
+        myHeaders2.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+
+        var raw = JSON.stringify({
+            "value": parseInt(value),
+            "post": null,
+            "comment": parseInt(comment_id),
+        });
+        alert(raw)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders2,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/api/like/", requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+                console.log(result)
+                let obj = JSON.parse(result);
+                let msg = obj.msg;
+                // console.log(msg)
+                // alert(msg)
+
+
+            })
+            .catch(error => {
+                // alert('error' + error)
+            });
+    }
+
     render() {
+        const that = this;
         if (this.state.children == undefined || this.state.children.length < 1) {
             return (
                 <div className={"post_comment"}>
                     <p>{this.state.author_username}</p>
 
-                    <p dangerouslySetInnerHTML={{__html:this.state.contents}}></p>
+                    <p dangerouslySetInnerHTML={{__html: this.state.contents}}></p>
                     <a className="card-link" id={"like_comment_" + this.state.id}><i
-                        className="fa fa-plus" href={window.location.href}></i><span></span>{this.state.likes}</a>
+                        className="fa fa-plus" href={window.location.href}
+                        onClick={() => {
+                            that.likeOrDislike(this.state.id, this.state.post_id, 1)
+                        }}></i><span></span>{this.state.likes}</a>
 
                     <a className="card-link" id={"dislike_comment_" + this.state.id}><i
-                        className="fa fa-minus" href={window.location.href}></i><span></span>{this.state.dislikes}</a>
-                    <p><button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button></p>
+                        className="fa fa-minus" href={window.location.href} onClick={() => {
+                        that.likeOrDislike(this.state.id, this.state.post_id, -1)
+                    }}></i><span></span>{this.state.dislikes}</a>
+                    <p>
+                        <button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button>
+                    </p>
 
                 </div>
             );
@@ -99,14 +147,21 @@ children: [{…}]
             <div className={"post_comment"}>
                 <p>{this.state.author_username}</p>
 
-                <p dangerouslySetInnerHTML={{__html:this.state.contents}}></p>
+                <p dangerouslySetInnerHTML={{__html: this.state.contents}}></p>
                 <a className="card-link" id={"like_comment_" + this.state.id}><i
-                    className="fa fa-plus" href={window.location.href}></i><span></span>{this.state.likes}</a>
+                    className="fa fa-plus" href={window.location.href}
+                    onClick={() => {
+                        that.likeOrDislike(this.state.id, this.state.post_id, 1)
+                    }}></i><span></span>{this.state.likes}</a>
 
                 <a class="card-link" id={"dislike_comment_" + this.state.id}><i
-                    className="fa fa-minus" href={window.location.href}></i><span></span>{this.state.dislikes}</a>
+                    className="fa fa-minus" href={window.location.href} onClick={() => {
+                    that.likeOrDislike(this.state.id, this.state.post_id, -1)
+                }}></i><span></span>{this.state.dislikes}</a>
 
-                <p><button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button></p>
+                <p>
+                    <button className="btn btn-primary" onClick={this.replySetter.bind(this)}>Set Reply To</button>
+                </p>
                 <ul className={"simple_nested"}>
                     {this.state.children.map((post) => {
                         return (
