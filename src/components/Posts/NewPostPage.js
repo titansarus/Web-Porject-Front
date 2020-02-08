@@ -3,19 +3,118 @@ import "./topic.css"
 import {Redirect} from "react-router-dom";
 
 
-class ChannelPage extends Component {
+class NewPostPage extends Component {
 
 
     state = {
         title: "",
-        rule: "",
-        description: "",
-        identifier: "",
-        owner: "",
-        authors: "",
-        isUserAuthor: false,
+        body: "",
+        author: "",
+        date: "",
+        like: 0,
+        dislike: 0,
+        comments: [],
+        channel: ""
 
     };
+
+    componentDidMount() {
+        console.log("SOMETHING")
+        const that = this;
+        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/PostView\/(\w+)\/(\w+)\/?$/
+        let a = window.location.href;
+        let profile_name = a.match(re)[2];
+        let post_id = a.match(re)[3];
+        let url = "http://127.0.0.1:8000/api/posts/" + post_id;
+        var myHeaders2 = new Headers();
+        myHeaders2.append("Content-Type", "application/json");
+        myHeaders2.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+        var author_id= 0;
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders2,
+            redirect: 'follow'
+        };
+
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+
+                let obj = JSON.parse(result);
+                let msg = obj.msg;
+
+                that.state.channel=msg.chanel;
+                that.state.title=msg.title;
+                that.state.body=msg.body;
+                that.state.like =msg.like.liked;
+                that.state.dislike =msg.like.disLiked;
+                that.state.date =msg.create_time;
+
+                that.setState({
+                    channel: msg.chanel,
+                    title: msg.title,
+                    body: msg.body,
+                    like: msg.like.liked,
+                    dislike: msg.like.disLiked,
+                    date: msg.create_time,
+                })
+                author_id = msg.author;
+                var myHeaders3 = new Headers();
+                myHeaders3.append("Content-Type", "application/json");
+                myHeaders3.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+                let url2 = "http://127.0.0.1:8000/api/chanel/get/"+profile_name;
+                var requestOptions2 = {
+                    method: 'GET',
+                    headers: myHeaders3,
+                    redirect: 'follow'
+                };
+
+                fetch(url2, requestOptions2)
+                    .then(response2 => {
+
+                        return response2.text()
+                    })
+                    .then(function (result2) {
+
+                        let authors = JSON.parse(result2).data.author
+                        let len = JSON.parse(result2).data.author.length;
+                        for (let i=0;i<len;i++)
+                        {
+                            if (authors[i].id == author_id)
+                            {
+                                that.setState({
+                                    author: authors[i].username
+                                })
+                            }
+                        }
+
+
+
+                     console.log(that.state)
+
+                        // alert(msg)
+
+
+                    })
+                    .catch(error => {
+                        alert('error' + error)
+                    });
+
+
+
+                // alert(msg)
+
+
+            })
+            .catch(error => {
+                // alert('error' + error)
+            });
+
+
+
+    }
 
     async addLikeDislike(value, post_id) {
         console.log("INSIDE LIKE FUNCTION" + value + "  " + post_id)
@@ -243,7 +342,7 @@ class ChannelPage extends Component {
         return Array(output_str, amIAuthor)
     }
 
-    componentDidMount() {
+    componentDidMount2() {
         const that = this;
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -317,61 +416,11 @@ class ChannelPage extends Component {
             return (<Redirect to="/signUp"/>)
         }
 
-        let addPost;
-        if (this.state.isUserAuthor)
-        {
-            addPost = <div>
-                <hr/>
-                <a href={"http://localhost:3000/channel/"+this.state.identifier+"/post"}>
-                <button className="btn btn-primary" type="button">CREATE NEW POST</button>
-                </a>
-                <hr/>
-                <br/>
-            </div>
-        }
-        else
-        {
-            addPost = <br/>
-        }
+
         return (
 
             <div className="container">
                 <div className="row text-center">
-                    <div className="col channel-titr-container"
-                         style={{backgroundColor: 'rgb(119,255,180)', minHeight: '400px'}}>
-                        Title:
-                        <br/>
-                        <div className="row channel-titr" id="channel-Title"> {this.state.title}</div>
-
-                        <hr/>
-                        Identifier:
-                        <br/>
-                        <div className="row channel-titr"
-                             id="channel-identifier">{this.state.identifier}</div>
-                        <hr/>
-                        Description:
-                        <br/>
-                        <div className="row channel-titr"
-                             id="Channel-description">{this.state.description}</div>
-                        <hr/>
-                        Rules
-                        <br/>
-                        <div className="row channel-titr" id="Channel-Rules">{this.state.rule}</div>
-                        <hr/>
-                        Admin
-                        <br/>
-                        <div className="row channel-titr" id="Admins"> {<a
-                            href={"http://localhost:3000/profile/other/" + this.state.owner}>  {"    " + this.state.owner}</a>}</div>
-                        <hr/>
-                        Authors<br/>
-                        <div className="row channel-titr" id="Authors">
-
-
-
-
-                        </div>
-                        {addPost}
-                    </div>
                     <div className="col-8" id="post-container">
 
                     </div>
@@ -384,4 +433,4 @@ class ChannelPage extends Component {
 
 }
 
-export default ChannelPage
+export default NewPostPage

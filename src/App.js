@@ -23,6 +23,7 @@ import 'react-notifications-component/dist/theme.css'
 // import 'react-notifications/lib/notifications.css';
 // import {NotificationContainer, NotificationManager} from 'react-notifications';
 import EditPost from "./components/Channel/EditPost";
+import NewPostPage from "./components/Posts/NewPostPage";
 
 class App extends Component {
     constructor() {
@@ -137,6 +138,7 @@ class App extends Component {
                     <Route path="/notification" render={() => <NotificationPage/>} ></Route>
                     <Route path="/channel/:identifier" render={() => <ChannelContainer/>} ></Route>
                     <Route path="/postEdit/:identifier/:post_id" render={() => <EditPost/>} ></Route>
+                    <Route path="/PostView/:channel_id/:post_id" render={() => <NewPostPage/>} ></Route>
                 </Switch>
 
 
