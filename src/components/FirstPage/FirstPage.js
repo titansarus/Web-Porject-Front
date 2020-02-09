@@ -1,9 +1,4 @@
 import React, {Component} from 'react';
-import TopicThumbnail from "./Topic/TopicThumbnail";
-import data from "../static/jsons/topic"
-import Navbar from "../template_compnent/Navbar";
-import TextArea from "../template_compnent/TextInput/TextArea";
-import logo from "../static/img/reddit-logo.png";
 
 class FirstPage extends Component {
     constructor() {

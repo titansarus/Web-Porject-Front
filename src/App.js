@@ -6,7 +6,7 @@ import Sign from './components/Signs/Sign.js'
 import {Route, BrowserRouter, Switch} from 'react-router-dom'
 import SignUp from "./components/Signs/SignUp";
 import TopicThumbnail from "./components/Topic/TopicThumbnail";
-import FirstPage from "./components/FirstPage";
+import FirstPage from "./components/FirstPage/FirstPage";
 import PostMaker from "./components/Posts/PostMaker";
 import NotificationPage from "./components/NotificationPage";
 import TopicPage from "./components/Topic/TopicPage";
@@ -141,6 +141,7 @@ class App extends Component {
                     <Route path="/postEdit/:identifier/:post_id" render={() => <EditPost/>} ></Route>
                     <Route path="/commentEdit/:post_id/:comment_id" render={() => <EditComment/>} ></Route>
                     <Route path="/PostView/:channel_id/:post_id" render={() => <NewPostPage/>} ></Route>
+                    <Route path="/search/:searched" render={() => <Search />} ></Route>
                 </Switch>
 
 

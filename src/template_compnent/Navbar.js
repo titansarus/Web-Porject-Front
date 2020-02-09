@@ -6,6 +6,7 @@ class Navbar extends Component {
     constructor() {
         super();
         this.logout = this.logout.bind(this)
+        this.search = this.search.bind(this)
     }
 
     logout() {
@@ -15,7 +16,9 @@ class Navbar extends Component {
         this.forceUpdate();
     }
 
+    search(){
 
+    }
 
 
 
@@ -63,7 +66,7 @@ class Navbar extends Component {
 
                     <form className="form-inline my-2 my-lg-0">
                         <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.search} type="submit">Search</button>
                     </form>
                     {(!(localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("ACCESS_TOKEN") != undefined)) ? (
                             <ul className="form-inline my-2 my-lg-0 navbar-nav" style={{margin: "10px"}}>
