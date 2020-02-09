@@ -70,7 +70,7 @@ class Follow extends Component {
 
         let url = "http://127.0.0.1:8000/api/chanel/follow/";
         let a = window.location.href
-        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/(\w+)\/?$/
+        let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/
         let profile_name = a.match(re)[2];
 
         url = url + profile_name;
@@ -83,6 +83,7 @@ class Follow extends Component {
         };
         var obj
         var msg;
+        console.log("pushed")
         fetch(url, requestOptions)
             .then(response => response.text())
             .then(function (result) {
