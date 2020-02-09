@@ -7,7 +7,6 @@ class FirstPage extends Component {
         this.follow = this.follow.bind(this)
         this.hot = this.hot.bind(this)
         this.new = this.new.bind(this)
-        this.default = this.default.bind(this)
         this.nextPage = this.nextPage.bind(this)
         this.prePage = this.prePage.bind(this)
     }
@@ -31,15 +30,6 @@ class FirstPage extends Component {
             followed: false,
             hotSort: false,
             newsSort: true,
-        })
-        console.log(this.state)
-        this.loadPage()
-    }
-    default(){
-        this.setState({
-            followed: false,
-            hotSort: false,
-            newsSort: false,
         })
         console.log(this.state)
         this.loadPage()
@@ -69,17 +59,23 @@ class FirstPage extends Component {
     loadPage() {
         var thisIS = this;
 
-
+        // console.log("load:")
+        // console.log(thisIS.state)
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
 
-        var raw = JSON.stringify({
-            "followed": true,
-            "page_number": thisIS.state.page_number,
-            "hotSort": thisIS.state.hotSort,
-            "newsSort": thisIS.state.newsSort,
-        });
+
+        var body = {}
+        body["page_number"] = thisIS.state.page_number
+        if (thisIS.state.followed)
+            body['followed'] = true
+        else if(thisIS.state.hotSort)
+            body['hotSort'] = true
+        else if(thisIS.state.newsSort)
+            body['newestSort']= true
+
+        var raw = JSON.stringify(body)
 
 
         var requestOptions = {
@@ -101,7 +97,7 @@ class FirstPage extends Component {
                 if (!obj.success) {
                     //todo
                 }
-
+                console.log(thisIS.state)
                 for (const msg of obj.data) {
                     var myHeaders1 = new Headers();
                     myHeaders1.append("Content-Type", "application/json");
@@ -122,12 +118,14 @@ class FirstPage extends Component {
                         .then(response => response.text())
                         .then(function (result) {
 
-                            console.log(result)
+                           // console.log(result)
                             let obj1 = JSON.parse(result);
                             if (!obj1.success) {
                                 //todo
                             }
-                            console.log("obj:" + obj1)
+                            //console.log("obj:" + obj1)
+                            console.log(msg.title)
+                            console.log( document.getElementById("posts").innerHTML)
                             document.getElementById("posts").innerHTML += '<div class="row">\n' +
                                 '    <div class="col">\n' +
                                 '        <div class="card_new">\n' +
@@ -172,10 +170,9 @@ class FirstPage extends Component {
                                     mode
                                 </a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <span className="dropdown-item" onClick={this.follow} >Followed</span>
-                                    <span className="dropdown-item" onClick={this.hot} >Hot</span>
-                                    <span className="dropdown-item" onClick={this.new} >New</span>
-                                    <span className="dropdown-item" onClick={this.default} >Default</span>
+                                    <button className="dropdown-item" onClick={this.follow} >Followed</button>
+                                    <button className="dropdown-item" onClick={this.hot} >Hot</button>
+                                    <button className="dropdown-item" onClick={this.new} >New</button>
                                 </div>
                             </li>
                         </ul>
@@ -192,7 +189,6 @@ class FirstPage extends Component {
                     </div>
                 </nav>
                 <div id="posts">
-
                 </div>
             </div>
         )
