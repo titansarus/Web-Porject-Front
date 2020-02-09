@@ -37,25 +37,25 @@ class Follow extends Component {
 
 
                 let a = window.location.href
-                let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/(\w+)\/?$/
+                let re = /^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?$/
                 let profile_name = a.match(re)[2];
                 for (const vari of following) {
                     console.log("INSIDE FOR:" + vari.chanel.identifer)
-                    if (vari.chanel.identifier === profile_name) {
+                    if (vari.chanel.identifier == profile_name) {
                         that.setState({
                             shouldShowFollow: false,
                         })
-                        break;
-                    }
-                    that.setState({
-                        shouldShowFollow: true,
-                    })
+
+                    } else
+                        that.setState({
+                            shouldShowFollow: true,
+                        })
                 }
 
 
             })
             .catch(error => {
-               // alert('error0 ' + error)
+                // alert('error0 ' + error)
                 //return
             });
     }
@@ -98,6 +98,7 @@ class Follow extends Component {
                 //alert('error1 ' + error)
                 //return
             });
+        that.setState({shouldShowFollow: !that.state.shouldShowFollow})
 
 
     }
@@ -109,7 +110,8 @@ class Follow extends Component {
         // else
         if (!(this.state.shouldShowFollow))
             button =
-                <a href={window.location.href} onClick={this.insideSubmit.bind(this)} className="nav-item nav-link activer"
+                <a href={window.location.href} onClick={this.insideSubmit.bind(this)}
+                   className="nav-item nav-link activer"
                    title="unfollow"><i
                     className="	fas fa-user-minus"></i> </a>;
         else
