@@ -3,15 +3,63 @@ import TopicThumbnail from "./Topic/TopicThumbnail";
 import data from "../static/jsons/topic"
 import Navbar from "../template_compnent/Navbar";
 import TextArea from "../template_compnent/TextInput/TextArea";
+import logo from "../static/img/reddit-logo.png";
 
 class FirstPage extends Component {
     constructor() {
         super();
         this.loadPage = this.loadPage.bind(this)
+        this.follow = this.follow.bind(this)
+        this.hot = this.hot.bind(this)
+        this.new = this.new.bind(this)
+        this.default = this.default.bind(this)
+        this.nextPage = this.nextPage.bind(this)
+        this.prePage = this.prePage.bind(this)
+    }
+    follow(){
+        this.setState({
+            followed: true,
+            hotSort: false,
+            newsSort: false,
+        })
+    }
+    new(){
+        this.setState({
+            followed: false,
+            hotSort: false,
+            newsSort: true,
+        })
+    }
+    default(){
+        this.setState({
+            followed: false,
+            hotSort: false,
+            newsSort: false,
+        })
+    }
+    hot(){
+        this.setState({
+            followed: false,
+            hotSort: true,
+            newsSort: false,
+        })
+    }
+    nextPage(){
+        this.setState({
+            page_number: this.state.page_number+1
+        })
+    }
+    prePage(){
+        this.setState({
+            page_number: this.state.page_number-1
+        })
     }
 
     state = {
         page_number: 1,
+        followed: false,
+        hotSort: false,
+        newsSort: false,
     }
 
     loadPage() {
@@ -24,7 +72,9 @@ class FirstPage extends Component {
 
         var raw = JSON.stringify({
             "followed": true,
-            "page_number": thisIS.state.page_number
+            "page_number": thisIS.state.page_number,
+            "hotSort": thisIS.state.hotSort,
+            "newsSort": thisIS.state.newsSort,
         });
 
 
@@ -62,7 +112,7 @@ class FirstPage extends Component {
 
 
                     document.getElementById("posts").innerHTML = ""
-                    let url ="http://127.0.0.1:8000/api/chanel/get/"+msg.chanel
+                    let url = "http://127.0.0.1:8000/api/chanel/get/" + msg.chanel
                     console.log(url)
                     fetch(url, requestOptions1)
                         .then(response => response.text())
@@ -73,8 +123,8 @@ class FirstPage extends Component {
                             if (!obj1.success) {
                                 //todo
                             }
-                            console.log("obj:"+obj1)
-                            document.getElementById("posts").innerHTML+='<div class="row">\n' +
+                            console.log("obj:" + obj1)
+                            document.getElementById("posts").innerHTML += '<div class="row">\n' +
                                 '    <div class="col">\n' +
                                 '        <div class="card_new">\n' +
                                 '            <div class="card-body">\n' +
@@ -107,8 +157,35 @@ class FirstPage extends Component {
 
     render() {
         return (
-
             <div className="container">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav  mr-auto">
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    mode
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" onClick={this.follow} href={window.location.href}>Followed</a>
+                                    <a className="dropdown-item" onClick={this.hot} href={window.location.href}>Hot</a>
+                                    <a className="dropdown-item" onClick={this.new} href={window.location.href}>New</a>
+                                    <a className="dropdown-item" onClick={this.default} href={window.location.href}>Default</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul className="form-inline my-2 my-lg-0 navbar-nav" style={{margin: "10px"}}>
+                            <li className="nav-item btn-primary btn-sm">
+                                <a className="nav-link" href={window.location.href} style={{margin: "5px" , color:"white"}}>pre</a>
+                            </li>
+                            <li className="nav-item btn-primary btn-sm" style={{margin: "5px"}}>
+                                <a className="nav-link" href={window.location.href} onClick={this.logout}
+                                   style={{color: "white", margin:"5px"}}>next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
                 <div id="posts">
 
                 </div>
