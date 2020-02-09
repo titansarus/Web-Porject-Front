@@ -24,6 +24,7 @@ class Post extends Component {
     }
 
     async insideSubmit() {
+        const swal = require("sweetalert2");
         let title = document.getElementById("title").value;
         //
         //let pic = document.getElementById("file").value;
@@ -37,7 +38,19 @@ class Post extends Component {
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
 
         if (!(document.getElementById("title").validity.valid)) {
-            alert("something in input is wrong")
+            swal.fire(
+                "Error",
+                "Some Required Field is Empty",
+                "error"
+            );
+            return
+        }
+        if (!(document.getElementById("title").innerText)) {
+             swal.fire(
+                "Error",
+                "Some Required Field is Empty",
+                "error"
+            );
             return
         }
 
@@ -64,7 +77,13 @@ class Post extends Component {
                 console.log(result)
                 let obj = JSON.parse(result);
                 let msg = obj.msg;
-                alert(msg)
+                // alert(msg)
+
+                swal.fire(
+                    "Send",
+                    "Post Successfully Created",
+                    "success"
+                )
 
             })
             .catch(error => {
@@ -74,14 +93,13 @@ class Post extends Component {
 
     }
 
-    uploadSubmit()
-    {
+    uploadSubmit() {
         console.log(document.getElementById("PIC").files[0]);
         let picture = document.getElementById("PIC").files[0];
-        if (!picture)
-        {
+        if (!picture) {
             let swal = require("sweetalert2")
             swal.fire(
+                "UPLOAD ERROR",
                 "NO FILE UPLOADED",
                 "error"
             )
@@ -105,10 +123,10 @@ class Post extends Component {
             .then(function (result) {
                 console.log(result)
                 let url = result.image;
-                url = "http://127.0.0.1:8000"+url;
+                url = "http://127.0.0.1:8000" + url;
                 console.log(url)
-                let imgRef= document.getElementById("image_help_reference")
-                imgRef.style="visibility: visible";
+                let imgRef = document.getElementById("image_help_reference")
+                imgRef.style = "visibility: visible";
                 imgRef.innerHTML = imgRef.innerText + "<br/>" + url
 
 
@@ -116,15 +134,6 @@ class Post extends Component {
             .catch(error => {
                 alert('error' + error)
             });
-        // $.ajax({
-        //     url: "http://localhost:15797/api/values",
-        //     type: 'GET',
-        //     contentType: 'application/json',
-        //     headers: {
-        //         "Authorization": "Bearer " + $('#tokenField').val()
-        //     },
-        //     async: false
-        // });
     }
 
 
@@ -139,7 +148,7 @@ class Post extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="card col-8">
+                    <div className="card col-10">
                         {/*<nav className="navbar navbar-expand-lg navbar-light">*/}
                         {/*    {temp}*/}
                         {/*</nav>*/}
@@ -170,13 +179,20 @@ class Post extends Component {
                                     Post
                                 </button>
 
+                                <hr/>
+                                <hr/>
+
+
 
                                 <div>
-                                    <label htmlFor="pic">UPLOAD PICTURE</label>
+                                    <h4>UPLOAD PICTURE</h4>
                                     <input id="PIC" input type="file" name="pic" accept="image/*"/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                     <button onClick={this.uploadSubmit.bind(this)} type="submit"
                                             className="btn btn-primary">
-                                        UPLOAD FILE
+                                        UPLOAD PICTURE
                                     </button>
                                 </div>
 

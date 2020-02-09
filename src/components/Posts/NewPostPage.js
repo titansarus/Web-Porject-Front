@@ -623,6 +623,49 @@ comment: null
             });
     }
 
+    uploadSubmit() {
+        console.log(document.getElementById("PIC").files[0]);
+        let picture = document.getElementById("PIC").files[0];
+        if (!picture) {
+            let swal = require("sweetalert2")
+            swal.fire(
+                "UPLOAD ERROR",
+                "NO FILE UPLOADED",
+                "error"
+            )
+            return
+        }
+        var myHeaders = new Headers();
+        //myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+        var form = new FormData();
+        form.append("image", picture);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: form,
+            redirect: 'follow'
+        };
+        let url = "http://127.0.0.1:8000/api/upload/"
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(function (result) {
+                console.log(result)
+                let url = result.image;
+                url = "http://127.0.0.1:8000" + url;
+                console.log(url)
+                let imgRef = document.getElementById("image_help_reference")
+                imgRef.style = "visibility: visible";
+                imgRef.innerHTML = imgRef.innerText + "<br/>" + url
+
+
+            })
+            .catch(error => {
+                alert('error' + error)
+            });
+    }
+
 
     render() {
         if (localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("ACCESS_TOKEN") == undefined) {
@@ -690,7 +733,33 @@ comment: null
                         </button>
 
 
+
+
+
                     </div>
+
+                    <hr/>
+                    <hr/>
+
+                    <div>
+                        <h4>UPLOAD PICTURE</h4>
+                        <input id="PIC" input type="file" name="pic" accept="image/*"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <button onClick={this.uploadSubmit.bind(this)} type="submit"
+                                className="btn btn-primary">
+                            UPLOAD PICTURE
+                        </button>
+                    </div>
+
+                    <div id="image_help_reference" style={{visibility: "hidden"}}>
+                        You Can Reference the Uploaded picture with this address:
+
+                    </div>
+
+                    <hr/>
+                    <hr/>
                     {
                         this.state.comments.map(
                             (comment) => {
@@ -736,7 +805,33 @@ comment: null
                         </button>
 
 
+
+
+
                     </div>
+
+                    <hr/>
+                    <hr/>
+
+                    <div>
+                        <h4>UPLOAD PICTURE</h4>
+                        <input id="PIC" input type="file" name="pic" accept="image/*"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <button onClick={this.uploadSubmit.bind(this)} type="submit"
+                                className="btn btn-primary">
+                            UPLOAD PICTURE
+                        </button>
+                    </div>
+
+                    <div id="image_help_reference" style={{visibility: "hidden"}}>
+                        You Can Reference the Uploaded picture with this address:
+
+                    </div>
+
+                    <hr/>
+                    <hr/>
 
                     <script src="assets/js/jquery.min.js"></script>
                     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
