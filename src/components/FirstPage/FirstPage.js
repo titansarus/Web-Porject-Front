@@ -11,12 +11,20 @@ class FirstPage extends Component {
         this.nextPage = this.nextPage.bind(this)
         this.prePage = this.prePage.bind(this)
     }
+    state = {
+        page_number: 1,
+        followed: false,
+        hotSort: false,
+        newsSort: false,
+    };
     follow(){
         this.setState({
             followed: true,
             hotSort: false,
             newsSort: false,
         })
+        console.log(this.state)
+        this.loadPage()
     }
     new(){
         this.setState({
@@ -24,6 +32,8 @@ class FirstPage extends Component {
             hotSort: false,
             newsSort: true,
         })
+        console.log(this.state)
+        this.loadPage()
     }
     default(){
         this.setState({
@@ -31,6 +41,8 @@ class FirstPage extends Component {
             hotSort: false,
             newsSort: false,
         })
+        console.log(this.state)
+        this.loadPage()
     }
     hot(){
         this.setState({
@@ -38,23 +50,20 @@ class FirstPage extends Component {
             hotSort: true,
             newsSort: false,
         })
+        console.log(this.state)
+        this.loadPage()
     }
     nextPage(){
         this.setState({
             page_number: this.state.page_number+1
         })
+        this.loadPage()
     }
     prePage(){
         this.setState({
             page_number: this.state.page_number-1
         })
-    }
-
-    state = {
-        page_number: 1,
-        followed: false,
-        hotSort: false,
-        newsSort: false,
+        this.loadPage()
     }
 
     loadPage() {
@@ -151,6 +160,7 @@ class FirstPage extends Component {
     }
 
     render() {
+        console.log("state"+this.state)
         return (
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -162,10 +172,10 @@ class FirstPage extends Component {
                                     mode
                                 </a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a className="dropdown-item" onClick={this.follow} href={window.location.href}>Followed</a>
-                                    <a className="dropdown-item" onClick={this.hot} href={window.location.href}>Hot</a>
-                                    <a className="dropdown-item" onClick={this.new} href={window.location.href}>New</a>
-                                    <a className="dropdown-item" onClick={this.default} href={window.location.href}>Default</a>
+                                    <span className="dropdown-item" onClick={this.follow} >Followed</span>
+                                    <span className="dropdown-item" onClick={this.hot} >Hot</span>
+                                    <span className="dropdown-item" onClick={this.new} >New</span>
+                                    <span className="dropdown-item" onClick={this.default} >Default</span>
                                 </div>
                             </li>
                         </ul>

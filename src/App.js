@@ -25,20 +25,23 @@ import 'react-notifications-component/dist/theme.css'
 import EditPost from "./components/Channel/EditPost";
 import NewPostPage from "./components/Posts/NewPostPage";
 import EditComment from "./components/Posts/EditComment";
+import Search from "./components/FirstPage/search";
 
 class App extends Component {
     constructor() {
         super();
         this.f = this.f.bind(this)
     }
+
     state = {
         users: [],
-        onlineUser : ""
+        onlineUser: ""
     }
+
     componentDidMount() {
         console.log("he")
         this.setState({
-            users : Users
+            users: Users
         })
         setTimeout(this.f, 500)
     }
@@ -115,7 +118,7 @@ class App extends Component {
         let onlineUser
         Users.map((user) => {
             //console.log(user.id, user.id === "98102345")
-            if (user.id === "98102345"){
+            if (user.id === "98102345") {
                 onlineUser = user
             }
         })
@@ -123,7 +126,7 @@ class App extends Component {
         return (
             <BrowserRouter>
                 {/*<NotificationContainer/>*/}
-                <ReactNotification />
+                <ReactNotification/>
                 <Navbar/>
 
 
@@ -134,14 +137,15 @@ class App extends Component {
                     <Route exact path="/signUp" render={() => <SignUp/>}></Route>
                     <Route exact path="/Home" render={() => <FirstPage/>}></Route>
                     <Route exact path="/PostMaker" render={() => <PostMaker/>}></Route>
-                    <Route path="/topic/:topic_id"  component={TopicPage}></Route>
-                    <Route path="/profile"  render={() => <ProfileContainer  me={{checked:true , follow:false}}/>}></Route>
-                    <Route path="/notification" render={() => <NotificationPage/>} ></Route>
-                    <Route path="/channel/:identifier" render={() => <ChannelContainer/>} ></Route>
-                    <Route path="/postEdit/:identifier/:post_id" render={() => <EditPost/>} ></Route>
-                    <Route path="/commentEdit/:post_id/:comment_id" render={() => <EditComment/>} ></Route>
-                    <Route path="/PostView/:channel_id/:post_id" render={() => <NewPostPage/>} ></Route>
-                    <Route path="/search/:searched" render={() => <Search />} ></Route>
+                    <Route path="/topic/:topic_id" component={TopicPage}></Route>
+                    <Route path="/profile"
+                           render={() => <ProfileContainer me={{checked: true, follow: false}}/>}></Route>
+                    <Route path="/notification" render={() => <NotificationPage/>}></Route>
+                    <Route path="/channel/:identifier" render={() => <ChannelContainer/>}></Route>
+                    <Route path="/postEdit/:identifier/:post_id" render={() => <EditPost/>}></Route>
+                    <Route path="/commentEdit/:post_id/:comment_id" render={() => <EditComment/>}></Route>
+                    <Route path="/PostView/:channel_id/:post_id" render={() => <NewPostPage/>}></Route>
+                    <Route path="/search/:searched" render={() => <Search/>}></Route>
                 </Switch>
 
 
