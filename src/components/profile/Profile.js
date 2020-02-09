@@ -114,8 +114,8 @@ class profile extends Component {
                     url1+= window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)[2]
                     url2+= window.location.href.match(/^http:\/\/(localhost|127\.0\.0\.1):3000\/profile\/other\/(\w+)\/?/)[2]
                 }
-                url1+="followers"
-                url2+="following"
+                url1+="/followers"
+                url2+="/following"
                 document.getElementById("username").innerHTML= username
                 document.getElementById("following_count").innerHTML= following_count+ "<br/>" + "Following";
                 document.getElementById("following_count").setAttribute("href" ,url2)
