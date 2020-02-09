@@ -136,6 +136,48 @@ class EditComment extends Component {
 
     }
 
+    uploadSubmit() {
+        console.log(document.getElementById("PIC").files[0]);
+        let picture = document.getElementById("PIC").files[0];
+        if (!picture) {
+            let swal = require("sweetalert2")
+            swal.fire(
+                "UPLOAD ERROR",
+                "NO FILE UPLOADED",
+                "error"
+            )
+            return
+        }
+        var myHeaders = new Headers();
+        //myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+        var form = new FormData();
+        form.append("image", picture);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: form,
+            redirect: 'follow'
+        };
+        let url = "http://127.0.0.1:8000/api/upload/"
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(function (result) {
+                console.log(result)
+                let url = result.image;
+                url = "http://127.0.0.1:8000" + url;
+                console.log(url)
+                let imgRef = document.getElementById("image_help_reference")
+                imgRef.style = "visibility: visible";
+                imgRef.innerHTML = imgRef.innerText + "<br/>" + url
+
+
+            })
+            .catch(error => {
+                alert('error' + error)
+            });
+    }
 
     render() {
         const editorStyle = {
@@ -152,7 +194,7 @@ class EditComment extends Component {
                         {/*<nav className="navbar navbar-expand-lg navbar-light">*/}
                         {/*    {temp}*/}
                         {/*</nav>*/}
-                        <h3 className="card-title center">New Post Into Channel</h3>
+                        <h3 className="card-title center">Edit Comment</h3>
                         <div className="card-body">
                             <div>
 
@@ -176,6 +218,28 @@ class EditComment extends Component {
                                 </button>
 
                             </div>
+                            <hr/>
+                            <hr/>
+
+                            <div>
+                                <h4>UPLOAD PICTURE</h4>
+                                <input id="PIC" input type="file" name="pic" accept="image/*"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <button onClick={this.uploadSubmit.bind(this)} type="submit"
+                                        className="btn btn-primary">
+                                    UPLOAD PICTURE
+                                </button>
+                            </div>
+
+                            <div id="image_help_reference" style={{visibility: "hidden"}}>
+                                You Can Reference the Uploaded picture with this address:
+
+                            </div>
+
+                            <hr/>
+                            <hr/>
 
                         </div>
                     </div>
