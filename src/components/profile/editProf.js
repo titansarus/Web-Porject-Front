@@ -10,6 +10,49 @@ class EditProf extends Component {
     }
 
     async submit() {
+
+        /*
+        console.log(document.getElementById("PIC").files[0]);
+        let picture = document.getElementById("PIC").files[0];
+        if (!picture) {
+            let swal = require("sweetalert2")
+            swal.fire(
+                "UPLOAD ERROR",
+                "NO FILE UPLOADED",
+                "error"
+            )
+            return
+        }
+        var myHeaders = new Headers();
+        //myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+        var form = new FormData();
+        form.append("image", picture);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: form,
+            redirect: 'follow'
+        };
+        let url = "http://127.0.0.1:8000/api/upload/"
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(function (result) {
+                console.log(result)
+                let url = result.image;
+                url = "http://127.0.0.1:8000" + url;
+                console.log(url)
+                let imgRef = document.getElementById("image_help_reference")
+                imgRef.style = "visibility: visible";
+                imgRef.innerHTML = imgRef.innerText + "<br/>" + url
+
+
+            })
+            .catch(error => {
+                alert('error' + error)
+            });
+         */
         let username = document.getElementById("username").value;
         let email = document.getElementById("email").value;
         let city = document.getElementById("city").value;
@@ -17,41 +60,53 @@ class EditProf extends Component {
         let last_name = document.getElementById("last_name").value;
         let first_name = document.getElementById("first_name").value;
         let phone_number = document.getElementById("phone_number").value;
-        let picture = document.getElementById("pic").value;
+        let picture = document.getElementById("pic").files[0];
 
 
         var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+        //myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
-        //
-        // if (!(document.getElementById("username").validity.valid && document.getElementById("email").validity.valid && document.getElementById("last_name").validity.valid && document.getElementById("first_name").validity && document.getElementById("phone_number").validity.valid &&document.getElementById("pic").validity.valid &&document.getElementById("city").validity.valid && document.getElementById("country").validity.valid)){
-        //     alert("some required input is not given")
-        //     return
-        // }
-
-        var body = {}
-        if (document.getElementById("username").validity.valid)
-            body['username'] = username
-        if(document.getElementById("email").validity.valid)
-            body['email'] = email
-        if(document.getElementById("last_name").validity.valid)
-            body['last_name']= last_name
-        if(document.getElementById("first_name").validity.valid)
-            body['first_name']= first_name
-        if(document.getElementById("city").validity.valid)
-            body['city']= city
-        if(document.getElementById("country").validity.valid)
-            body['country']= country
-        if(document.getElementById("phone_number").validity.valid)
-            body['phone_number']= phone_number
 
 
-        var raw = JSON.stringify(body);
+        var form = new FormData();
+        // var body = {}
+        if (document.getElementById("username").validity.valid) {
+            form.append("username", username);
+        }
+        // body['username'] = username
+        if (document.getElementById("email").validity.valid) {
+            form.append("email", email);
+        }
+        // body['email'] = email
+        if (document.getElementById("last_name").validity.valid) {
+            form.append("last_name", last_name);
+        }
+        // body['last_name']= last_name
+        if (document.getElementById("first_name").validity.valid) {
+            form.append("first_name", first_name);
+        }
+        // body['first_name']= first_name
+        if (document.getElementById("city").validity.valid) {
+            form.append("city", city);
+        }
+        // body['city']= city
+        if (document.getElementById("country").validity.valid) {
+            form.append("country", country);
+        }
+        // body['country']= country
+        if (document.getElementById("phone_number").validity.valid) {
+            form.append("phone_number", phone_number);
+        }
+        // body['phone_number']= phone_number
+        if (picture) {
+            form.append("picture", picture);
+        }
+
 
         var requestOptions = {
             method: 'PUT',
             headers: myHeaders,
-            body: raw,
+            body: form,
             redirect: 'follow'
         };
 
@@ -60,7 +115,12 @@ class EditProf extends Component {
             .then(function (result) {
                 var obj = JSON.parse(result);
                 console.log(result)
-                alert(obj.msg)
+                const swal = require("sweetalert2");
+                swal.fire(
+                    "SUCCESS",
+                    "User Profile Updated",
+                    "success"
+                )
             })
             .catch(error => alert('error' + error));
 
