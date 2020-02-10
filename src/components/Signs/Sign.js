@@ -147,7 +147,7 @@ class Sign extends Component {
                                     <input required id="password" name="password" type="password" className="form-control"
                                            placeholder="password"/>
                                 </div>
-                             
+
                                 <div className="form-group">
                                     <input onClick={this.insideSubmit.bind(this)} type="submit" value="Login"
                                            className="btn float-right login_btn"/>
