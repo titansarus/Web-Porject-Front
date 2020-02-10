@@ -4,6 +4,10 @@ import {Redirect} from "react-router-dom";
 
 
 class ChannelPage extends Component {
+    constructor() {
+        super();
+        this.follow = this.follow.bind(this)
+    }
 
 
     state = {
@@ -324,6 +328,38 @@ class ChannelPage extends Component {
 
     }
 
+    follow(){
+        console.log("follow")
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        let url = "http://127.0.0.1:8000/api/chanel/follow/";
+        url+= this.state.identifier
+
+
+
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(function (result) {
+
+
+                let obj = JSON.parse(result);
+                alert(obj.msg)
+
+
+            })
+            .catch(error => {
+                alert(error)
+            });
+    }
+
 
     render() {
         if (localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("ACCESS_TOKEN") == undefined) {
@@ -332,7 +368,7 @@ class ChannelPage extends Component {
         console.log("AM I admin:" + this.state.isThisUserAdmin)
 
         let addPost;
-        let follow_channel = <div>HELLLOOOO</div>
+        let follow_channel = <br />
         if (this.state.isUserAuthor) {
             addPost = <div>
                 <hr/>
@@ -345,7 +381,7 @@ class ChannelPage extends Component {
 
         } else {
             addPost = <br/>
-            follow_channel= <div>HELLLOOOO</div>
+            follow_channel = <button className="btn btn-primary" type="button" onClick={this.follow}>un/follow</button>
         }
         //delAuthor
         let addAuthor;

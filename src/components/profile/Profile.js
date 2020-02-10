@@ -1,10 +1,4 @@
 import React, {Component} from 'react'
-import ChangePassword from "./changePass";
-import Post from "./post";
-import EditProf from "./editProf";
-import Following from "./following";
-import Followers from "./followers";
-import ChannelCreator from "../Channel/channelCreator";
 import Follow from "./follow";
 import Edit from "./edit";
 import "./style2.css"
