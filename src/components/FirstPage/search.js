@@ -13,7 +13,7 @@ class Search extends Component {
         let body = a.match(re)[2];
 
         var raw = JSON.stringify({
-            "body":body
+            "body": body
         });
 
         var requestOptions = {
@@ -28,13 +28,16 @@ class Search extends Component {
             .then(function (result) {
                 console.log(result)
                 let obj = JSON.parse(result);
-                for(const channel of obj.data.chanel){
+                for (const channel of obj.data.chanel) {
+                    document.getElementById("channels").innerHTML += '<a href="/channel/'+channel.identifier+'"><div class="card-body"> <h6 class="card-title">'+channel.identifier+'</h6></div></a>'
+                }
+                for (const user of obj.data.user) {
+
+                    document.getElementById("users").innerHTML += '<div class="card"><a href="/profile/other/' + user.username + '"><h6 class="card-title">' + user.username + '</h6><p class="card-body">' + user.first_name +' ' + user.last_name + '</p></a></div>'
+
 
                 }
-                for(const user of obj.data.user){
-
-                }
-                for(const msg of obj.data.post){
+                for (const msg of obj.data.post) {
                     var myHeaders1 = new Headers();
                     myHeaders1.append("Content-Type", "application/json");
                     myHeaders1.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
@@ -95,7 +98,8 @@ class Search extends Component {
                 <div className="row">
                     <div className="card col" style={{margin: "auto"}}>
                         <h3 className="card-header">channels</h3>
-                        <div className="card-body" id="channels">
+                        <div className="card-body">
+                            <div className="row" id="channels"></div>
 
                         </div>
                     </div>
@@ -103,16 +107,16 @@ class Search extends Component {
                 <div className="row">
                     <div className="card col" style={{margin: "auto"}}>
                         <h3 className="card-header">User</h3>
-                        <div className="card-body" id="users">
-
+                        <div className="card-body">
+                            <div className="row" id="users"></div>
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="card col" style={{margin: "auto"}}>
                         <h3 className="card-header">Post</h3>
-                        <div className="card-body" id="posts">
-
+                        <div className="card-body">
+                            <div className="row" id="posts"></div>
                         </div>
                     </div>
                 </div>
