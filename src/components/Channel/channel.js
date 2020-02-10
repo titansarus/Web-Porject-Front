@@ -14,6 +14,7 @@ class ChannelPage extends Component {
         owner: "",
         authors: "",
         isUserAuthor: false,
+        isThisUserAdmin: false,
 
     };
 
@@ -154,6 +155,7 @@ class ChannelPage extends Component {
         let owner_string = owners.username
         //console.log(authors)
         let isThisUserAuthor = false;
+        let isThisUserAdmin = false;
         let author_str = ""
         for (let author of authors) {
             // console.log("AUTHORAR: "+author)
@@ -169,6 +171,11 @@ class ChannelPage extends Component {
             //console.log(author_str)
         }
 
+
+        if (owners.username == localStorage.getItem("CURRENT_USER")) {
+            isThisUserAdmin = true;
+        }
+
         document.getElementById("Authors").innerHTML = author_str;
 
         that.setState({
@@ -179,6 +186,7 @@ class ChannelPage extends Component {
             owner: owner_string,
             authors: author_str,
             isUserAuthor: isThisUserAuthor,
+            isThisUserAdmin: isThisUserAdmin
 
         });
     }
@@ -321,8 +329,10 @@ class ChannelPage extends Component {
         if (localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("ACCESS_TOKEN") == undefined) {
             return (<Redirect to="/signUp"/>)
         }
+        console.log("AM I admin:" + this.state.isThisUserAdmin)
 
         let addPost;
+        let follow_channel = <div>HELLLOOOO</div>
         if (this.state.isUserAuthor) {
             addPost = <div>
                 <hr/>
@@ -332,15 +342,46 @@ class ChannelPage extends Component {
                 <hr/>
                 <br/>
             </div>
+
         } else {
             addPost = <br/>
+            follow_channel= <div>HELLLOOOO</div>
+        }
+        //delAuthor
+        let addAuthor;
+        let deleteAuthor;
+        if (this.state.isThisUserAdmin) {
+            addAuthor = <div>
+                <hr/>
+                <a href={"http://localhost:3000/channel/" + this.state.identifier + "/addAuthor"}>
+                    <button className="btn btn-primary" type="button">ADD AUTHOR</button>
+                </a>
+                <hr/>
+                <br/>
+            </div>
+
+            deleteAuthor = <div>
+                <hr/>
+                <a href={"http://localhost:3000/channel/" + this.state.identifier + "/delAuthor"}>
+                    <button className="btn btn-primary" type="button">DELETE AUTHOR</button>
+                </a>
+                <hr/>
+                <br/>
+            </div>
+        } else {
+            addAuthor = <br/>;
+            deleteAuthor = <br/>;
         }
         return (
 
             <div className="container">
                 <div className="row text-center">
+
                     <div className="col channel-titr-container"
+
                          style={{backgroundColor: 'rgb(119,255,180)', minHeight: '400px'}}>
+
+
                         Title:
                         <br/>
                         <div className="row channel-titr" id="channel-Title"> {this.state.title}</div>
@@ -371,6 +412,13 @@ class ChannelPage extends Component {
 
                         </div>
                         {addPost}
+                        <hr/>
+                        {addAuthor}
+                        <hr/>
+                        {deleteAuthor}
+
+                        <hr/>
+                        {follow_channel}
                     </div>
                     <div className="col-8" id="post-container">
 

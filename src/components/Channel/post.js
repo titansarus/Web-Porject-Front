@@ -45,14 +45,14 @@ class Post extends Component {
             );
             return
         }
-        if (!(document.getElementById("title").innerText)) {
-             swal.fire(
-                "Error",
-                "Some Required Field is Empty",
-                "error"
-            );
-            return
-        }
+        // if (!(document.getElementById("title").innerText)) {
+        //      swal.fire(
+        //         "Error",
+        //         "Some Required Field is Empty",
+        //         "error"
+        //     );
+        //     return
+        // }
 
 
         let a = window.location.href
@@ -157,7 +157,7 @@ class Post extends Component {
                             <div>
                                 <div className="md-form">
                                     <label className="center">Title</label>
-                                    <input type="text" id="title" className="form-control" placeholder="title"
+                                    <input required type="text" id="title" className="form-control" placeholder="title"
                                     />
                                 </div>
                                 <br/>
