@@ -7,6 +7,7 @@ import Followers from "./followers";
 import ChannelCreator from "../Channel/channelCreator";
 import Follow from "./follow";
 import Edit from "./edit";
+import "./style2.css"
 
 
 class profile extends Component {
@@ -25,7 +26,8 @@ class profile extends Component {
         first_name: "",
         last_name: "",
         country: "",
-        city: ""
+        city: "",
+        picture: null,
 
     }
 
@@ -60,6 +62,7 @@ class profile extends Component {
         var following_count = 0;
         var follower_count =0;
         var post_count=0;
+        var picture=0;
         let a = window.location.href
         let sp= a.split('/')
         console.log("LENGTH" + sp.length)
@@ -93,9 +96,14 @@ class profile extends Component {
                  last_name = user_data.last_name;
                  country = user_data.country;
                  city = user_data.city;
+                 picture = user_data.picture
                  following_count = obj.data.following_count
                  follower_count = obj.data.follower_count
                  post_count = obj.data.user_post_count
+
+                picture = "http://127.0.0.1:8000"+picture;
+
+                 console.log(picture)
 
 
 
@@ -124,6 +132,7 @@ class profile extends Component {
                 document.getElementById("post_count").innerHTML= post_count+ "<br/>" + "Posts";
                 document.getElementById("names").innerHTML= first_name+ "&nbsp&nbsp&nbsp&nbsp" + last_name;
                 document.getElementById("location").innerHTML= "From " + country+ "\\" + city + "<br/>" +" <br/>" + " <br/>";
+                document.getElementById("picture").src = picture;
 
 
 
@@ -142,6 +151,7 @@ class profile extends Component {
             last_name: last_name,
             country: country,
             city: city,
+            picture: picture,
 
         })
 
@@ -169,7 +179,7 @@ class profile extends Component {
                             {temp}
                         </nav>
                         <div className="card-body">
-                            <img className="col-3 img" src="" alt=""/>
+                            <img className="col-3 img" id ="picture" src={this.state.picture} alt="profile_picture"/>
                             <h2 className="card-title" id = "username"></h2>
                             <h5 className="card-title" id = "names"></h5>
                             <h6 className="card-title" id = "location"></h6>
