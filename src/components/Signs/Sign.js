@@ -16,7 +16,12 @@ class Sign extends Component {
         myHeaders.append("Content-Type", "application/json");
 
         if (!(document.getElementById("password").validity.valid && document.getElementById("username").validity.valid)) {
-            alert("something in input is wrong")
+            const swal = require("sweetalert2");
+            swal.fire(
+                "ERROR",
+                "Username and Password Cannot be Empty",
+                "error"
+            )
             return
         }
 
@@ -38,7 +43,21 @@ class Sign extends Component {
                 console.log(result)
                 console.log(localStorage.getItem("ACCESS_TOKEN"))
                 let obj = JSON.parse(result);
+
+
                 let access = obj.access;
+                if (access == undefined) {
+
+                    const swal = require("sweetalert2");
+                    swal.fire(
+                        "ERROR",
+                        "ERROR  " + obj.detail,
+                        "error"
+                    )
+
+
+                    return;
+                }
                 if (access != undefined) {
                     localStorage.setItem("ACCESS_TOKEN", access);
                     localStorage.setItem("CURRENT_USER", username);
@@ -81,7 +100,12 @@ class Sign extends Component {
 
             })
             .catch(error => {
-                alert('error' + error)
+                const swal = require("sweetalert2");
+                swal.fire(
+                    "ERROR",
+                    "ERROR " + error,
+                    "error"
+                )
                 localStorage.removeItem("ACCESS_TOKEN")
                 localStorage.removeItem("CURRENT_USER");
                 localStorage.removeItem("CURRENT_USER_ID");
@@ -112,7 +136,7 @@ class Sign extends Component {
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"><i className="fas fa-user"></i></span>
                                     </div>
-                                    <input type="text" id="username" name="username" className="form-control"
+                                    <input required type="text" id="username" name="username" className="form-control"
                                            placeholder="username"/>
 
                                 </div>
@@ -120,12 +144,10 @@ class Sign extends Component {
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"><i className="fas fa-key"></i></span>
                                     </div>
-                                    <input id="password" name="password" type="password" className="form-control"
+                                    <input required id="password" name="password" type="password" className="form-control"
                                            placeholder="password"/>
                                 </div>
-                                <div className="row align-items-center remember">
-                                    <input type="checkbox"/><span style={{color: "black"}}>Remember Me</span>
-                                </div>
+                             
                                 <div className="form-group">
                                     <input onClick={this.insideSubmit.bind(this)} type="submit" value="Login"
                                            className="btn float-right login_btn"/>
