@@ -10,49 +10,45 @@ class FirstPage extends Component {
         this.nextPage = this.nextPage.bind(this)
         this.prePage = this.prePage.bind(this)
     }
+
     state = {
         page_number: 1,
         followed: true,
         hotSort: false,
         newsSort: false,
     };
-    follow(){
-        this.setState({
-            followed: true,
-            hotSort: false,
-            newsSort: false,
-        })
-        console.log(this.state)
+
+    follow() {
+        this.state.followed = true
+        this.state.hotSort = false
+        this.state.newsSort = false
+        console.log(this.state.followed)
         this.loadPage()
     }
-    new(){
-        this.setState({
-            followed: false,
-            hotSort: false,
-            newsSort: true,
-        })
-        console.log(this.state)
+
+    new() {
+        this.state.followed = false
+        this.state.hotSort = false
+        this.state.newsSort = true
+        console.log(this.state.newsSort)
         this.loadPage()
     }
-    hot(){
-        this.setState({
-            followed: false,
-            hotSort: true,
-            newsSort: false,
-        })
-        console.log(this.state)
+
+    hot() {
+        this.state.followed = false
+        this.state.hotSort = true
+        this.state.newsSort = false
+        console.log(this.state.hotSort)
         this.loadPage()
     }
-    nextPage(){
-        this.setState({
-            page_number: this.state.page_number+1
-        })
+
+    nextPage() {
+        this.state.page_number = this.state.page_number + 1
         this.loadPage()
     }
-    prePage(){
-        this.setState({
-            page_number: this.state.page_number-1
-        })
+
+    prePage() {
+        this.state.page_number = this.state.page_number - 1
         this.loadPage()
     }
 
@@ -70,11 +66,14 @@ class FirstPage extends Component {
         body["page_number"] = thisIS.state.page_number
         if (thisIS.state.followed)
             body['followed'] = true
-        else if(thisIS.state.hotSort)
+        else if (thisIS.state.hotSort)
             body['hotSort'] = true
-        else if(thisIS.state.newsSort)
-            body['newestSort']= true
-
+        else if (thisIS.state.newsSort)
+            body['newestSort'] = true
+        console.log("body")
+        console.log(body)
+        console.log("state")
+        console.log(thisIS.state)
         var raw = JSON.stringify(body)
 
 
@@ -97,7 +96,8 @@ class FirstPage extends Component {
                 if (!obj.success) {
                     //todo
                 }
-                console.log(thisIS.state)
+                console.log("outer:" + result)
+
                 for (const msg of obj.data) {
                     var myHeaders1 = new Headers();
                     myHeaders1.append("Content-Type", "application/json");
@@ -113,19 +113,20 @@ class FirstPage extends Component {
 
                     document.getElementById("posts").innerHTML = ""
                     let url = "http://127.0.0.1:8000/api/chanel/get/" + msg.chanel
-                    console.log(url)
+                    //console.log(url)
                     fetch(url, requestOptions1)
-                        .then(response => response.text())
-                        .then(function (result) {
+                        .then(response1 => response1.text())
+                        .then(function (result1) {
 
-                           // console.log(result)
-                            let obj1 = JSON.parse(result);
+                            // console.log(result)
+                            let obj1 = JSON.parse(result1);
                             if (!obj1.success) {
                                 //todo
                             }
+                            console.log(result1)
                             //console.log("obj:" + obj1)
                             console.log(msg.title)
-                            console.log( document.getElementById("posts").innerHTML)
+                            // console.log(document.getElementById("posts").innerHTML)
                             document.getElementById("posts").innerHTML += '<div class="row">\n' +
                                 '    <div class="col">\n' +
                                 '        <div class="card_new">\n' +
@@ -158,35 +159,34 @@ class FirstPage extends Component {
     }
 
     render() {
-        console.log("state"+this.state)
+        //console.log("state" + this.state)
         return (
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav  mr-auto">
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    mode
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <button className="dropdown-item" onClick={this.follow} >Followed</button>
-                                    <button className="dropdown-item" onClick={this.hot} >Hot</button>
-                                    <button className="dropdown-item" onClick={this.new} >New</button>
-                                </div>
-                            </li>
-                        </ul>
+                    <ul className="form-inline my-2 my-lg-0 navbar-nav" style={{margin: "10px"}}>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <button className="nav-item btn-primary btn-sm dropdown-item"
+                                        onClick={this.follow}>Followed
+                                </button>
+                                <button className="nav-item btn-primary btn-sm dropdown-item" onClick={this.hot}>Hot
+                                </button>
+                                <button className="nav-item btn-primary btn-sm dropdown-item" onClick={this.new}>New
+                                </button>
+                            </div>
+                        </li>
+                        <button className="nav-item btn-primary btn-sm" style={{margin: "5px", color: "white"}}>
+                            pre
+                        </button>
+                        <button className="nav-item btn-primary btn-sm" style={{color: "white", margin: "5px"}}>
+                            next
+                        </button>
+                    </ul>
 
-                        <ul className="form-inline my-2 my-lg-0 navbar-nav" style={{margin: "10px"}}>
-                            <li className="nav-item btn-primary btn-sm">
-                                <a className="nav-link" href={window.location.href} style={{margin: "5px" , color:"white"}}>pre</a>
-                            </li>
-                            <li className="nav-item btn-primary btn-sm" style={{margin: "5px"}}>
-                                <a className="nav-link" href={window.location.href} onClick={this.logout}
-                                   style={{color: "white", margin:"5px"}}>next</a>
-                            </li>
-                        </ul>
-                    </div>
                 </nav>
                 <div id="posts">
                 </div>
