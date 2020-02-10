@@ -13,8 +13,14 @@ async function submit() {
     let first_name = document.getElementById("first_name").value;
     let phone_number = document.getElementById("phone_number").value;
     let picture = null;
-    if (!(document.getElementById("username").validity.valid && document.getElementById("email").validity.valid && document.getElementById("password").validity.valid && document.getElementById("first_name").validity.valid && document.getElementById("last_name").validity.valid)){
-        alert("one of username, email, password, first name, last name is wrong")
+    if (!(document.getElementById("username").validity.valid && document.getElementById("email").validity.valid && document.getElementById("password").validity.valid && document.getElementById("first_name").validity.valid && document.getElementById("last_name").validity.valid)) {
+
+        const swal = require("sweetalert2");
+        swal.fire(
+            "ERROR",
+            "one of username, email, password, first name, last name is wrong",
+            "error"
+        );
         return
     }
 
@@ -42,8 +48,30 @@ async function submit() {
 
     fetch("http://127.0.0.1:8000/api/account/signup", requestOptions)
         .then(response => response.text())
-        .then(result => alert('You signed up successfully'))
-        .catch(error => alert('error' + error));
+        .then(result => {
+
+            let jsons = JSON.parse(result);
+            let msg = jsons.msg;
+            console.log(jsons)
+            if (!jsons.success) {
+                const swal = require("sweetalert2")
+                swal.fire(
+                    "ERROR",
+                    "SOME FIELD LIKE USERNAME OR EMAIL OR PHONE NUMBER ALREADY EXIST IN OUR DATABASE",
+                    "error"
+                )
+            }
+
+        })
+        .catch(error => {
+                const swal = require("sweetalert2");
+                swal.fire(
+                    "ERROR",
+                    "ERROR " + error,
+                    "error"
+                )
+            }
+        );
 
 }
 

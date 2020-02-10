@@ -11,7 +11,12 @@ class Forget extends Component {
         myHeaders.append("Content-Type", "application/json");
 
         if (!(document.getElementById("email").validity.valid)) {
-            alert("something in input is wrong")
+            const swal = require("sweetalert2");
+            swal.fire(
+                "ERROR",
+                "Input is Not OK",
+                "error"
+            )
             return
         }
 
@@ -31,10 +36,32 @@ class Forget extends Component {
             .then(function (result) {
                 let obj = JSON.parse(result)
                 let msg = obj.msg;
-                alert(msg)
+                //alert(msg)
+                console.log(obj)
+                if (obj.success == false) {
+                    console.log("FALSE")
+                    const swal = require("sweetalert2");
+                    swal.fire(
+                        "ERROR",
+                        "NO USER FOUND WITH THIS EMAIL",
+                        "error"
+                    )
+                    return;
+                }
+                const swal = require("sweetalert2");
+                swal.fire(
+                    "EMAIL SEND",
+                    "We Send You an Email",
+                    "success"
+                )
             })
             .catch(error => {
-                alert('error' + error)
+                const swal = require("sweetalert2");
+                swal.fire(
+                    "ERROR",
+                    "ERROR " + error,
+                    "error"
+                )
                 localStorage.removeItem("ACCESS_TOKEN")
                 localStorage.removeItem("CURRENT_USER");
                 localStorage.removeItem("CURRENT_USER_ID");
@@ -65,7 +92,7 @@ class Forget extends Component {
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"><i className="fas fa-envelope"></i></span>
                                     </div>
-                                    <input type="email" id="email" name="email" className="form-control"
+                                    <input required type="email" id="email" name="email" className="form-control"
                                            placeholder="mail@mail.com"/>
 
                                 </div>

@@ -9,6 +9,7 @@ class ChangePassword extends Component {
         this.reset = this.reset.bind(this)
         this.insideSubmit = this.insideSubmit.bind(this)
     }
+
     async insideSubmit() {
         let thisIS = this;
 
@@ -18,14 +19,24 @@ class ChangePassword extends Component {
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization","Bearer "+localStorage.getItem("ACCESS_TOKEN"))
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
 
         if (!(document.getElementById("newPassword").validity.valid && document.getElementById("repeatPassword").validity.valid)) {
-            alert("something in input is wrong")
+            const swal = require("sweetalert2");
+            swal.fire(
+                "ERROR",
+                "something in input is wrong",
+                "error"
+            )
             return
-        }
-        else if (!(password == repeatpassword)) {
-            alert("Your repeatition is wrong")
+        } else if (!(password == repeatpassword)) {
+            const swal = require("sweetalert2");
+            swal.fire(
+                "ERROR",
+                "repeat password is wrong",
+                "error"
+            )
+
             return
         }
 
@@ -57,7 +68,7 @@ class ChangePassword extends Component {
 
     }
 
-    reset(){
+    reset() {
         document.getElementById("newPassword").value = ''
         document.getElementById("newPassword").value = ''
     }
@@ -78,20 +89,21 @@ class ChangePassword extends Component {
                         <h3 className="card-title">Change password</h3>
                         <div className="card-body">
 
-                                <div className="form-group row">
-                                    <label htmlFor="newPassword">New password</label>
-                                    <input type="password" className="form-control" id="newPassword"
-                                           placeholder="new pass" required/>
-                                </div>
-                                <div className="form-group row">
-                                    <label htmlFor="repeatPassword">Confirm password</label>
-                                    <input type="password" className="form-control" id="repeatPassword"
-                                           placeholder="repeat pass" required/>
-                                </div>
-                                <div className="button-container">
-                                    <button onClick={this.insideSubmit} type="submit" className="btn btn-primary">Change</button>
-                                    <button onClick={this.reset} type="reset" className="btn btn-primary">reset</button>
-                                </div>
+                            <div className="form-group row">
+                                <label htmlFor="newPassword">New password</label>
+                                <input type="password" className="form-control" id="newPassword"
+                                       placeholder="new pass" required/>
+                            </div>
+                            <div className="form-group row">
+                                <label htmlFor="repeatPassword">Confirm password</label>
+                                <input type="password" className="form-control" id="repeatPassword"
+                                       placeholder="repeat pass" required/>
+                            </div>
+                            <div className="button-container">
+                                <button onClick={this.insideSubmit} type="submit" className="btn btn-primary">Change
+                                </button>
+                                <button onClick={this.reset} type="reset" className="btn btn-primary">reset</button>
+                            </div>
 
                         </div>
                     </div>
