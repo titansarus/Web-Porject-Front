@@ -41,7 +41,7 @@ class Follow extends Component {
                 let profile_name = a.match(re)[2];
                 for (const vari of following) {
                     console.log("INSIDE FOR:" + vari.chanel.identifer)
-                    if (vari.chanel.identifier == profile_name) {
+                    if (vari.chanel.identifier === profile_name) {
                         that.setState({
                             shouldShowFollow: false,
                         })
