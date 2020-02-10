@@ -167,7 +167,7 @@ class FirstPage extends Component {
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown
+                                choose
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <button className="nav-item btn-primary btn-sm dropdown-item"
