@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import channels from '../../static/jsons/Channels'
 import ChannelCard from "../profile/ChannelCard";
+import {Redirect} from "react-router-dom";
 
 class Search extends Component {
     constructor() {
@@ -124,6 +125,9 @@ class Search extends Component {
     }
 
     render() {
+        if (localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("ACCESS_TOKEN") == undefined) {
+            return (<Redirect to="/signUp"/>)
+        }
         return (
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
