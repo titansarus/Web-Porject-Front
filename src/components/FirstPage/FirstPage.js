@@ -12,7 +12,7 @@ class FirstPage extends Component {
     }
     state = {
         page_number: 1,
-        followed: false,
+        followed: true,
         hotSort: false,
         newsSort: false,
     };
