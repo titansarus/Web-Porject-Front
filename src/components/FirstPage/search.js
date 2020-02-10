@@ -4,12 +4,13 @@ import ChannelCard from "../profile/ChannelCard";
 
 class Search extends Component {
     componentDidMount() {
+        console.log("search")
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("ACCESS_TOKEN"))
 
         let a = window.location.href
-        let re = /http:\/\/(localhost|127\.0\.0\.1):3000\/search\/(\w+)\/?$/
+        let re = /http:\/\/(localhost|127\.0\.0\.1):3000\/search\/\?search\=(\w+)/
         let body = a.match(re)[2];
 
         var raw = JSON.stringify({

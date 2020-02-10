@@ -145,7 +145,7 @@ class App extends Component {
                     <Route path="/postEdit/:identifier/:post_id" render={() => <EditPost/>}></Route>
                     <Route path="/commentEdit/:post_id/:comment_id" render={() => <EditComment/>}></Route>
                     <Route path="/PostView/:channel_id/:post_id" render={() => <NewPostPage/>}></Route>
-                    <Route path="/search/:searched" render={() => <Search/>}></Route>
+                    <Route path="/search/" render={() => <Search/>}></Route>
                 </Switch>
 
 
