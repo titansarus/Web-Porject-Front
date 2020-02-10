@@ -3,6 +3,13 @@ import channels from '../../static/jsons/Channels'
 import ChannelCard from "../profile/ChannelCard";
 
 class Search extends Component {
+    constructor() {
+        super();
+        this.post = this.post.bind(this)
+        this.user = this.user.bind(this)
+        this.channel = this.channel.bind(this)
+    }
+
     componentDidMount() {
         console.log("search")
         var myHeaders = new Headers();
@@ -30,11 +37,11 @@ class Search extends Component {
                 console.log(result)
                 let obj = JSON.parse(result);
                 for (const channel of obj.data.chanel) {
-                    document.getElementById("channels").innerHTML += '<a href="/channel/'+channel.identifier+'"><div class="card-body"> <h6 class="card-title">'+channel.identifier+'</h6></div></a>'
+                    document.getElementById("channels").innerHTML += '<a href="/channel/' + channel.identifier + '"><div class="card-body"> <h6 class="card-title">' + channel.identifier + '</h6></div></a>'
                 }
                 for (const user of obj.data.user) {
 
-                    document.getElementById("users").innerHTML += '<div class="card"><a href="/profile/other/' + user.username + '"><h6 class="card-title">' + user.username + '</h6><p class="card-body">' + user.first_name +' ' + user.last_name + '</p></a></div>'
+                    document.getElementById("users").innerHTML += '<div class="card"><a href="/profile/other/' + user.username + '"><h6 class="card-title">' + user.username + '</h6><p class="card-body">' + user.first_name + ' ' + user.last_name + '</p></a></div>'
 
 
                 }
@@ -93,11 +100,51 @@ class Search extends Component {
 
     }
 
+    user() {
+        console.log(document.getElementById("user_show").style.display)
+        console.log(document.getElementById("user_show").style.display == "none")
+        if (document.getElementById("user_show").style.display == "none")
+            document.getElementById("user_show").style.display = "inherit"
+        else
+            document.getElementById("user_show").style.display = "none"
+    }
+
+    channel() {
+        if (document.getElementById("channel_show").style.display === "none")
+            document.getElementById("channel_show").style.display = "inherit"
+        else
+            document.getElementById("channel_show").style.display = "none"
+    }
+
+    post() {
+        if (document.getElementById("post_show").style.display === "none")
+            document.getElementById("post_show").style.display = "inherit"
+        else
+            document.getElementById("post_show").style.display = "none"
+    }
+
     render() {
         return (
             <div className="container">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <ul className="form-inline my-2 my-lg-0 navbar-nav" style={{margin: "10px"}}>
+                        <button onClick={this.user} className="nav-item btn-primary btn-sm"
+                                style={{margin: "5px", color: "white"}}>
+                            user
+                        </button>
+                        <button onClick={this.channel} className="nav-item btn-primary btn-sm"
+                                style={{color: "white", margin: "5px"}}>
+                            channel
+                        </button>
+                        <button onClick={this.post} className="nav-item btn-primary btn-sm"
+                                style={{color: "white", margin: "5px"}}>
+                            post
+                        </button>
+                    </ul>
+
+                </nav>
                 <div className="row">
-                    <div className="card col" style={{margin: "auto"}}>
+                    <div className="card col" style={{margin: "auto"}} id="channel_show">
                         <h3 className="card-header">channels</h3>
                         <div className="card-body">
                             <div className="row" id="channels"></div>
@@ -106,7 +153,7 @@ class Search extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="card col" style={{margin: "auto"}}>
+                    <div className="card col" style={{margin: "auto"}} id="user_show">
                         <h3 className="card-header">User</h3>
                         <div className="card-body">
                             <div className="row" id="users"></div>
@@ -114,7 +161,7 @@ class Search extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="card col" style={{margin: "auto"}}>
+                    <div className="card col" style={{margin: "auto"}} id="post_show">
                         <h3 className="card-header">Post</h3>
                         <div className="card-body">
                             <div className="row" id="posts"></div>
